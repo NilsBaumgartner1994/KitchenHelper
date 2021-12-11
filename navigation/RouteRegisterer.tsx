@@ -24,10 +24,10 @@ import {
     DepartmentsWrapper,
     OverviewWrapper, TimeSheetWrapper,
     UsersWrapper
-} from "../../hiwis/components/helper/Wrappers";
-import {Menu} from "primereact/menu";
+} from "../../project/components/helper/Wrappers";
 import {Users} from "../screens/user/Users";
-import {HiWiSTemplate} from "../../hiwis/components/helper/HiWiSTemplate";
+import {HiWiSTemplate} from "../../project/components/helper/HiWiSTemplate";
+import App from "../App";
 
 export class RouteRegisterer {
 
@@ -61,6 +61,9 @@ export class RouteRegisterer {
 
         RegisteredRoutesMap.registerRoute(Users, BaseTemplate, "Users", "users", "/:id?");
 
+        if(!!App.plugin && App.plugin.registerRoutes()){
+            App.plugin.registerRoutes();
+        }
         //////////////////////////////////////////////////
         // HiWiS Routes and Components
         //////////////////////////////////////////////////

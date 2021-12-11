@@ -7,17 +7,19 @@ import BaseThemeGenerator from "./theme";
 import {RootStack} from "./navigation/rootNavigator";
 import {ColorStatusBar} from "./ColorStatusBar";
 import {MyDirectusStorage} from "./storage/MyDirectusStorage";
-import "primereact/resources/themes/saga-blue/theme.css"
-import "primereact/resources/primereact.min.css"
-import "primeicons/primeicons.css"
 import ServerAPI from "./ServerAPI";
-import AppHelper from "../hiwis/util/AppHelper";
-import {RegisteredRoutesMap} from "./navigation/RegisteredRoutesMap";
+import AppHelper from "../project/util/AppHelper";
 
 export default class App extends React.Component{
 
 	static storage = null;
 	static instance = null;
+
+	static plugin = null;
+
+	static registerPlugin(plugin){
+		App.plugin = plugin;
+	}
 
 	constructor(props) {
 		super(props);
@@ -96,6 +98,9 @@ export default class App extends React.Component{
 	}
 
 	async componentDidMount() {
+		if(!!App.plugin && !!App.plugin.initApp){
+			App.plugin.initApp();
+		}
 		await AppHelper.initApp();
 		await this.loadServerInfo();
 		let user = await this.loadUser();

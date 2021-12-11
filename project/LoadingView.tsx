@@ -1,7 +1,5 @@
-import React, {FunctionComponent, useState} from 'react';
-import {Image, Spinner, View} from "native-base";
-import ServerAPI from "../ServerAPI";
-import App from "../App";
+import React, {FunctionComponent} from 'react';
+import {View} from "native-base";
 import {Skeleton} from "primereact/skeleton";
 
 export const LoadingView: FunctionComponent = (props) => {
