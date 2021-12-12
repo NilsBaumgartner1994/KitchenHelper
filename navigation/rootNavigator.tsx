@@ -1,56 +1,9 @@
 import React from 'react';
-import {createStackNavigator} from '@react-navigation/stack';
-import {createDrawerNavigator} from "@react-navigation/drawer";
 import {RegisteredRoutesMap} from "./RegisteredRoutesMap";
 import {useBreakpointValue, useTheme, View} from "native-base";
 import {CustomDrawerContent} from "./CustomDrawerContent";
 import App from "../App";
-
-const Drawer = createDrawerNavigator();
-const Stack = createStackNavigator();
-
-function getStackScreens(){
-	let output = [];
-
-	console.log("getStackScreens");
-
-	let routes = RegisteredRoutesMap.getRouteList();
-	for(let route of routes){
-		let routeConfig = RegisteredRoutesMap.getConfigForRoute(route);
-		let screenName = routeConfig.screenName;
-		let component = routeConfig.component;
-		let template = routeConfig.template;
-		let title = routeConfig.title;
-		let key="RootStack:"+screenName;
-
-		let content = (props) => {
-			return React.createElement(component, props)
-		};
-		if(!!template){
-			content = (props) => {
-				let customProps = {title: title};
-				let renderedComponent = React.createElement(component, {...props, ...customProps})
-				return React.createElement(template, {...props, ...customProps, children: renderedComponent})
-			};
-		}
-
-		output.push(
-			<Drawer.Screen
-				key={key}
-				name={screenName}
-				component={content}
-				options={{
-					title: title,
-					headerLeft: null,
-				}}
-			/>
-		)
-	}
-	return output;
-}
-
-// ! Dont put it down in the component !
-const screens = getStackScreens(); //we save this here one, so the screens wont rerender every resize
+import {RouteRegisterer} from "./RouteRegisterer";
 
 export const RootStack = (props) => {
 
@@ -77,6 +30,8 @@ export const RootStack = (props) => {
 
 	console.log("Render RootNavigator");
 
+	let Drawer = RouteRegisterer.getDrawer();
+
 	//TODO maybe add Drawer instead of custom implementation: https://reactnavigation.org/docs/5.x/drawer-navigator
 	return(
 		<View flex={1} flexDirection={"row"}>
@@ -92,7 +47,7 @@ export const RootStack = (props) => {
 							headerShown: false,
 							unmountOnBlur:true
 						}}>
-						{screens}
+						{RouteRegisterer.screens}
 					</Drawer.Navigator>
 			</View>
 		</View>

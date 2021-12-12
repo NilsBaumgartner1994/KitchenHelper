@@ -7,8 +7,6 @@ import {RouteRegisterer} from "./RouteRegisterer";
 import {navigationRef} from "./NavigatorHelper";
 import {RegisteredRoutesMap} from "./RegisteredRoutesMap";
 
-RouteRegisterer.register();
-
 export const Root = (props) => {
 	const [lightBg, darkBg] = useToken(
 		'colors',

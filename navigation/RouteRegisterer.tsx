@@ -11,25 +11,15 @@ import {LoginTemplate} from "../templates/LoginTemplate";
 import React from "react";
 import {MyMenuRegisterer} from "./MyMenuRegisterer";
 import {MenuItem} from "./MenuItem";
-import {
-    AdministrationGroupsWrapper,
-    AdministrationGroupWrapper,
-    ArchiveWrapper,
-    ContractsWrapper,
-    ContractWrapper,
-    CreateAdministrationGroupWrapper,
-    CreateContractWrapper,
-    CreateDepartmentWrapper,
-    CreateUserWrapper,
-    DepartmentsWrapper,
-    OverviewWrapper, TimeSheetWrapper,
-    UsersWrapper
-} from "../../project/components/helper/Wrappers";
 import {Users} from "../screens/user/Users";
-import {HiWiSTemplate} from "../../project/components/helper/HiWiSTemplate";
 import App from "../App";
+import {createDrawerNavigator} from "@react-navigation/drawer";
+
+const Drawer = createDrawerNavigator();
 
 export class RouteRegisterer {
+
+    static screens = null;
 
     static HOME_AUTHENTICATED = Home;
     static HOME_UNAUTHENTICATED = Login;
@@ -47,6 +37,7 @@ export class RouteRegisterer {
     }
 
     static register(){
+        console.log("Register Routes")
 
         RegisteredRoutesMap.reset();
         RegisteredRoutesMap.setInitialRoute(Login);
@@ -64,60 +55,54 @@ export class RouteRegisterer {
         if(!!App.plugin && App.plugin.registerRoutes()){
             App.plugin.registerRoutes();
         }
-        //////////////////////////////////////////////////
-        // HiWiS Routes and Components
-        //////////////////////////////////////////////////
+    }
 
-        // General
-        RegisteredRoutesMap.registerRoute(OverviewWrapper, HiWiSTemplate, "Übersicht", "overview");
-        RegisteredRoutesMap.registerRoute(ArchiveWrapper, HiWiSTemplate, "Archiv", "archive");
+    static getDrawer(){
+        return Drawer;
+    }
 
-        // Resource creation
-        RegisteredRoutesMap.registerRoute(CreateContractWrapper, HiWiSTemplate, "Neuer Vertrag", "createContract");
-        RegisteredRoutesMap.registerRoute(CreateAdministrationGroupWrapper, HiWiSTemplate, "Neue Verwaltungsgruppe", "createAdministrationGroup");
-        RegisteredRoutesMap.registerRoute(CreateDepartmentWrapper, HiWiSTemplate, "Neuer Fachbereich", "createDepartment");
-        RegisteredRoutesMap.registerRoute(CreateUserWrapper, HiWiSTemplate, "Neuer Nutzer", "createUser");
+    static loadDrawerScreens(){
+        RouteRegisterer.screens = RouteRegisterer.getDrawerScreens();
+    }
 
-        // Resource overview
-        RegisteredRoutesMap.registerRoute(DepartmentsWrapper, HiWiSTemplate, "Fachbereiche", "department");
-        RegisteredRoutesMap.registerRoute(UsersWrapper, HiWiSTemplate, "Nutzer", "user");
-        RegisteredRoutesMap.registerRoute(ContractsWrapper, HiWiSTemplate, "Verträge", "contract");
-        RegisteredRoutesMap.registerRoute(AdministrationGroupsWrapper, HiWiSTemplate, "Verwaltungsgruppen", "administrationgroup");
+    static getDrawerScreens(){
+        let output = [];
 
+        console.log("getStackScreens");
 
-        // Resource detail
-        RegisteredRoutesMap.registerRoute(AdministrationGroupWrapper, HiWiSTemplate, "Verwaltungsgruppe", "administrationgroups");
-        // https://reactnavigation.org/docs/configuring-links/#marking-params-as-optional
-        RegisteredRoutesMap.registerRoute(ContractWrapper, HiWiSTemplate, "Vertrag", "contracts/:id");
-        RegisteredRoutesMap.registerRoute(TimeSheetWrapper, HiWiSTemplate, "Stundenzettel", "timesheets");
+        let routes = RegisteredRoutesMap.getRouteList();
+        for(let route of routes){
+            let routeConfig = RegisteredRoutesMap.getConfigForRoute(route);
+            let screenName = routeConfig.screenName;
+            let component = routeConfig.component;
+            let template = routeConfig.template;
+            let title = routeConfig.title;
+            let key="RootStack:"+screenName;
 
-        // Side Menu
+            let content = (props) => {
+                return React.createElement(component, props)
+            };
+            if(!!template){
+                content = (props) => {
+                    let customProps = {title: title};
+                    let renderedComponent = React.createElement(component, {...props, ...customProps})
+                    return React.createElement(template, {...props, ...customProps, children: renderedComponent})
+                };
+            }
 
-        // Side Menu for User
-        let userMenu = new MenuItem("Contract", "Verträge", null, null, null, null, true);
-        MyMenuRegisterer.registerAuthenticatedMenu(userMenu);
-
-            let timeSheetMenuItem = new MenuItem("contract", "Übersicht", ContractsWrapper);
-            userMenu.addChildMenuItems(timeSheetMenuItem);
-
-        // Side Menu for Admins
-        let adminMenu = new MenuItem("Sekretariat", "Sekretariat", null, null, null, null, true);
-        MyMenuRegisterer.registerUnsafeMenuForRoleByName("Admin", adminMenu);
-
-            let menuOverview = new MenuItem("overview", "Übersicht", OverviewWrapper);
-            adminMenu.addChildMenuItems(menuOverview)
-
-            let menuArchive = new MenuItem("archive", "Archiv", ArchiveWrapper);
-            adminMenu.addChildMenuItems(menuArchive)
-
-            let menuVerwaltung = new MenuItem("verwaltung", "Verwaltung", null, null, null, null, true);
-            adminMenu.addChildMenuItems(menuVerwaltung)
-                menuVerwaltung.addChildMenuItems(new MenuItem("fachbereiche", "Fachbereiche", DepartmentsWrapper));
-                menuVerwaltung.addChildMenuItems(new MenuItem("users", "Nutzer", UsersWrapper));
-                menuVerwaltung.addChildMenuItems(new MenuItem("contracts", "Verträge", ContractsWrapper));
-                menuVerwaltung.addChildMenuItems(new MenuItem("Verwaltungsgruppen", "Verwaltungsgruppen", AdministrationGroupsWrapper));
-
-        //////////////////////////////////////////////////
+            output.push(
+                <Drawer.Screen
+                    key={key}
+                    name={screenName}
+                    component={content}
+                    options={{
+                        title: title,
+                        headerLeft: null,
+                    }}
+                />
+            )
+        }
+        return output;
     }
 
 }

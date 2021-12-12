@@ -8,7 +8,7 @@ import {RootStack} from "./navigation/rootNavigator";
 import {ColorStatusBar} from "./ColorStatusBar";
 import {MyDirectusStorage} from "./storage/MyDirectusStorage";
 import ServerAPI from "./ServerAPI";
-import AppHelper from "../project/util/AppHelper";
+import {RouteRegisterer} from "./navigation/RouteRegisterer";
 
 export default class App extends React.Component{
 
@@ -25,6 +25,8 @@ export default class App extends React.Component{
 		super(props);
 		App.instance = this;
   		App.storage = new MyDirectusStorage();
+  		RouteRegisterer.register();
+  		RouteRegisterer.loadDrawerScreens();
 		this.state = {
 			loadedUser: false,
 		 	reloadNumber: 0,
@@ -101,7 +103,6 @@ export default class App extends React.Component{
 		if(!!App.plugin && !!App.plugin.initApp){
 			App.plugin.initApp();
 		}
-		await AppHelper.initApp();
 		await this.loadServerInfo();
 		let user = await this.loadUser();
 		await this.setUser(user);
@@ -113,6 +114,7 @@ export default class App extends React.Component{
 	}
 
 	render() {
+
 		const theme = this.getBaseTheme();
 		let content = <RootStack hideDrawer={this.state.hideDrawer} />
 		if(!!this.props.children){
