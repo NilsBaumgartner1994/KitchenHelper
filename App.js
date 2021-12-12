@@ -9,6 +9,7 @@ import {ColorStatusBar} from "./ColorStatusBar";
 import {MyDirectusStorage} from "./storage/MyDirectusStorage";
 import ServerAPI from "./ServerAPI";
 import {RouteRegisterer} from "./navigation/RouteRegisterer";
+import Project from "../project/Project";
 
 export default class App extends React.Component{
 
@@ -17,14 +18,11 @@ export default class App extends React.Component{
 
 	static plugin = null;
 
-	static registerPlugin(plugin){
-		App.plugin = plugin;
-	}
-
 	constructor(props) {
 		super(props);
 		App.instance = this;
   		App.storage = new MyDirectusStorage();
+		App.plugin = Project;
   		RouteRegisterer.register();
   		RouteRegisterer.loadDrawerScreens();
 		this.state = {

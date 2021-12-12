@@ -37,8 +37,6 @@ export class RouteRegisterer {
     }
 
     static register(){
-        console.log("Register Routes")
-
         RegisteredRoutesMap.reset();
         RegisteredRoutesMap.setInitialRoute(Login);
 
@@ -67,8 +65,6 @@ export class RouteRegisterer {
 
     static getDrawerScreens(){
         let output = [];
-
-        console.log("getStackScreens");
 
         let routes = RegisteredRoutesMap.getRouteList();
         for(let route of routes){
