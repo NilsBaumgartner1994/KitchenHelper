@@ -24,7 +24,7 @@ export const Root = (props) => {
 		console.log(err)
 	}
 
-	let prefixes = ["nothing"];
+	let prefixes = ["myapp:///"];
 	const linking = RegisteredRoutesMap.getRouteLinkingConfig(subroute, prefixes);
 
 	return (

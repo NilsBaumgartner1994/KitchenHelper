@@ -25,9 +25,7 @@ export const AuthProvidersLoginOptions: FunctionComponent = (props) => {
 
 	async function fetchAuthProviders(){
 		try{
-			console.log("fetchAuthProviders");
 			let providers = await ServerAPI.getAuthProviders();
-			console.log(providers);
 			setAuthProviders(providers);
 			setReloadnumber(reloadnumber+1);
 		} catch (err){

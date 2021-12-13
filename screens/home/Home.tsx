@@ -19,7 +19,7 @@ export const Home = (props) => {
 
 		let users = await directus.users.readMany();
 		setInfo(users);
-		setTimeout(() => { downloadServerStatus(); }, 1000);
+		//setTimeout(() => { downloadServerStatus(); }, 1000);
 	}
 
 	// corresponding componentDidMount

@@ -1,6 +1,5 @@
 import React, {FunctionComponent} from 'react';
-import {View} from "native-base";
-import {Skeleton} from "primereact/skeleton";
+import {Skeleton, View} from "native-base";
 
 export const LoadingView: FunctionComponent = (props) => {
 	const styles = {

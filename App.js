@@ -10,7 +10,10 @@ import {MyDirectusStorage} from "./storage/MyDirectusStorage";
 import ServerAPI from "./ServerAPI";
 import {RouteRegisterer} from "./navigation/RouteRegisterer";
 import Project from "../project/Project";
-import {LogBox} from "react-native";
+import {Linking, LogBox} from "react-native";
+import * as ExpoLinking from "expo-linking";
+import {URL_Helper} from "./helper/URL_Helper";
+import {NavigatorHelper} from "./navigation/NavigatorHelper";
 
 if(!!LogBox){
 	LogBox.ignoreLogs([
@@ -29,17 +32,40 @@ export default class App extends React.Component{
 
 	constructor(props) {
 		super(props);
-		console.log("App constructor");
 		App.instance = this;
   		App.storage = new MyDirectusStorage();
 		App.plugin = Project;
   		RouteRegisterer.register();
   		RouteRegisterer.loadDrawerScreens();
+		this.subscribe(( url ) => {
+			let baseurl = ExpoLinking.createURL("");
+			let screenURL = url.substr(baseurl.length);
+			let urlSplit = screenURL.split("?");
+			let route = urlSplit[0];
+			let params = URL_Helper.getAllUrlParams(url);
+			NavigatorHelper.navigateToRouteName(route, params);
+		})
 		this.state = {
 			loadedUser: false,
 		 	reloadNumber: 0,
 			hideDrawer: false,
 		}
+	}
+
+
+// Custom function to subscribe to incoming links
+	subscribe(listener) {
+		// First, you may want to do the default deep link handling
+		const onReceiveURL = ({url}: { url: string }) => {
+			listener(url);
+		};
+
+		// Listen to incoming links from deep linking
+		Linking.addEventListener('url', onReceiveURL);
+		return () => {
+			// Clean up the event listeners
+			Linking.removeEventListener('url', onReceiveURL);
+		};
 	}
 
 	async loadServerInfo(){

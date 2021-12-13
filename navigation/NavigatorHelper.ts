@@ -44,9 +44,23 @@ export class NavigatorHelper {
 
     //https://github.com/react-navigation/react-navigation/issues/6674
     static getEmptyParams(): object {
-        const state = NavigatorHelper.getCurrentNavigation()?.dangerouslyGetState();
+        const nativeState = NavigatorHelper.getCurrentNavigation()?.getRootState();
+        const webState = NavigatorHelper.getCurrentNavigation()?.dangerouslyGetState();
+        let state = nativeState || webState;
         let keys: string[] = [];
         try{
+            /**
+            let routes = state?.routes;
+            console.log("routes: ", routes);
+            for(let route of routes){
+                console.log("route: ", route);
+                let routeParams = route?.params || {};
+                console.log("routeParams: ", routeParams)
+                let routeKeys = Object.keys(routeParams);
+                console.log("routeKeys: ", routeKeys);
+                keys = Array.prototype.concat(routeKeys);
+            }
+             */
             keys = Array.prototype.concat(
                 ...state?.routes?.map((route) =>
                     Object.keys((route as any)?.params || {})
@@ -68,8 +82,6 @@ export class NavigatorHelper {
     static navigateWithoutParams(registeredComponent: FunctionComponent, resetHistory: boolean=false, newParams=null){
         //NavigatorHelper.clearURLParams();
         let emptyProps = NavigatorHelper.getEmptyParams();
-        console.log("emptryProps");
-        console.log(emptyProps);
         if(!newParams){
             newParams = {};
         }

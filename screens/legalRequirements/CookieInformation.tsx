@@ -2,8 +2,13 @@ import React, {useEffect, useState} from "react";
 import {AlertDialog, Button, Center, Divider, Text} from "native-base";
 import TextGenerator from "../../placeholder/TextGenerator";
 import App from "../../App";
+import {Platform} from "react-native";
 
 export const CookieInformation = (props) => {
+
+	if(Platform.OS!=="web"){
+		return null;
+	}
 
 	function hasCookieConfig(){
 		return App.storage.has_cookie_config()

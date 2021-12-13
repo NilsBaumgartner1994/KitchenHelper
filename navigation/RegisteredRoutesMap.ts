@@ -3,6 +3,10 @@ import {StringHelper} from "../helper/StringHelper";
 import {Login} from "../auth/Login";
 import {AboutUs} from "../screens/legalRequirements/AboutUs";
 import {License} from "../screens/legalRequirements/License";
+import {Linking} from "react-native";
+import * as ExpoLinking from 'expo-linking';
+import {NavigatorHelper} from "./NavigatorHelper";
+import {URL_Helper} from "../helper/URL_Helper";
 
 export class RegisteredRoutesMap {
 
@@ -24,8 +28,6 @@ export class RegisteredRoutesMap {
     }
 
     static registerRoute(component: FunctionComponent, template: FunctionComponent = null,title: string, route: string, params: any=null){
-        console.log("registerRoute");
-        console.log(component);
         let componentName = route
 
         // https://reactnavigation.org/docs/configuring-links/#marking-params-as-optional
@@ -99,8 +101,9 @@ export class RegisteredRoutesMap {
 
         let linking = {
             prefixes: prefixes, // i think this is needed, test in production !
-            config: config
-        }
+            config: config,
+        };
+
         return linking;
     }
 

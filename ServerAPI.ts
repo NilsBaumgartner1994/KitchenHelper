@@ -187,12 +187,14 @@ export default class ServerAPI{
 		let url = EnviromentHelper.getBackendURL()+'/auth/refresh';
 		const api = axios.create();
 		try{
-			let response = await api.post(url, {"refresh_token": directus_access_token}, {});
+			let response = await api.post(url, {"refresh_token": ""+directus_access_token}, {});
 			const refresh_token = response.data.data.refresh_token;
 			App.storage.set_refresh_token(refresh_token);
 			return response.data.data;
 		} catch (err){
+			console.log("refreshWithDirectusToken error");
 			console.log(err);
+			console.log(err.toString())
 		}
 		return null;
 	}

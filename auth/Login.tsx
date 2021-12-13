@@ -30,15 +30,10 @@ export const Login = (props) => {
 	let directus_access_token = params[EnviromentHelper.getDirectusAccessTokenName()];
 
 	async function fetchAccessTokenInUrl(){
-		//console.log("fetchAccessTokenInUrl: directus_access_token: ",directus_access_token);
 		try{
 			let directus = await ServerAPI.loginWithAccessDirectusAccessToken(directus_access_token);
 			let me = await ServerAPI.getMe(directus);
-			//console.log("Login user with token found: ", me);
-			//NavigatorHelper.navigateWithoutParams(Login);
 			await App.setUser(me);
-			//await NavigatorHelper.navigateWithoutParams(Login)
-			//console.log("fetchAccessTokenInUrl: me: ", me);
 			return true;
 		} catch (err){
 			console.log(err);
@@ -46,9 +41,9 @@ export const Login = (props) => {
 			if(err.code === 401){
 				console.log("Not allowed");
 			}
+			console.log("Not allowed");
 			NavigatorHelper.navigateWithoutParams(Login);
 		}
-		//console.log("Navigate without Params");
 		return false;
 	}
 
