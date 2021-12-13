@@ -25,7 +25,7 @@ export const ProjectLogo: FunctionComponent<AppState> = (props) => {
 		<View style={{height: heightAndWidth+"px", width: heightAndWidth+"px", backgroundColor: project_color, borderRadius: borderRadius+"px", alignItems: "center", justifyContent: "center"}}>
 			<DirectusImage alt={""}
 						   assetId={project_logo_asset_id}
-						   style={{height: "40px", width: "40px"}} />
+						   style={{height: 40, width: 40}} />
 		</View>
 	)
 }

@@ -15,10 +15,6 @@ export class RegisteredRoutesMap {
         RegisteredRoutesMap.mapRouteToScreenItem = {};
     }
 
-    static setInitialRoute(registeredRouteComponent: FunctionComponent){
-        RegisteredRoutesMap.setInitialRouteName(registeredRouteComponent.name);
-    }
-
     static setInitialRouteName(initialRoutename: string){
         RegisteredRoutesMap.initialRoutename = initialRoutename;
     }
@@ -28,7 +24,9 @@ export class RegisteredRoutesMap {
     }
 
     static registerRoute(component: FunctionComponent, template: FunctionComponent = null,title: string, route: string, params: any=null){
-        let componentName = component.name;
+        console.log("registerRoute");
+        console.log(component);
+        let componentName = route
 
         // https://reactnavigation.org/docs/configuring-links/#marking-params-as-optional
         if(!!params){
@@ -37,7 +35,7 @@ export class RegisteredRoutesMap {
 
         let otherRegisteredRoute = RegisteredRoutesMap.mapRouteToScreenItem[route];
         if(!!otherRegisteredRoute){
-            let otherComonentName = otherRegisteredRoute.component?.name;
+            let otherComonentName = otherRegisteredRoute.screenName;
             let errorMsg = "The route: "+route+" resolved to both '"+componentName+"' and '"+otherComonentName+"'. Patterns must be unique and cannot resolve to more than one screen.";
             throw new Error("RegisteredRoutesMap.registerRoute: Found conflicting route which wants to be registered: "+errorMsg)
         }

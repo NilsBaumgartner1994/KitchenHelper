@@ -17,7 +17,7 @@
 	}
 
 	static getBackendURL(): string{
-		return EnviromentHelper.getCustomEnvVariables().BACKEND_URL;
+		return EnviromentHelper.getCustomEnvVariables().BACKEND_URL || "https://se-services.informatik.uos.de/myapp/api";
 	}
 
 	static getAssetURL(file_id): any{

@@ -33,10 +33,6 @@ export class NavigatorHelper {
         return navigationRef?.current;
     }
 
-    static clearURLParams(){
-        NavigatorHelper.getCurrentNavigation()?.dispatch(CommonActions.setParams({ })); //clear url params
-    }
-
     static async navigateHome(){
         try{
             let me = await ServerAPI.getMe()
@@ -71,7 +67,7 @@ export class NavigatorHelper {
 
     static navigateWithoutParams(registeredComponent: FunctionComponent, resetHistory: boolean=false, newParams=null){
         //NavigatorHelper.clearURLParams();
-        let emptyProps = NavigatorHelper.getEmptyParams();
+        let emptyProps = {} //NavigatorHelper.getEmptyParams();
         if(!newParams){
             newParams = {};
         }

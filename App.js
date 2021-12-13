@@ -98,6 +98,7 @@ export default class App extends React.Component{
 	}
 
 	async componentDidMount() {
+		await MyDirectusStorage.init();
 		if(!!App.plugin && !!App.plugin.initApp){
 			App.plugin.initApp();
 		}

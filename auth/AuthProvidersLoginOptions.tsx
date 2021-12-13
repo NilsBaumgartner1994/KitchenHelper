@@ -3,9 +3,9 @@ import ServerAPI from "../ServerAPI";
 import {AuthProvider} from "./AuthProvider";
 import {View} from "native-base";
 
-const showExternalLogins = true;
-
 export const AuthProvidersLoginOptions: FunctionComponent = (props) => {
+
+	const showExternalLogins = true;
 
 	const [firstFetch, setfirstFetch] = useState(true)
 	const [authProviders, setAuthProviders] = useState(undefined)
@@ -25,7 +25,9 @@ export const AuthProvidersLoginOptions: FunctionComponent = (props) => {
 
 	async function fetchAuthProviders(){
 		try{
+			console.log("fetchAuthProviders");
 			let providers = await ServerAPI.getAuthProviders();
+			console.log(providers);
 			setAuthProviders(providers);
 			setReloadnumber(reloadnumber+1);
 		} catch (err){
@@ -34,7 +36,7 @@ export const AuthProvidersLoginOptions: FunctionComponent = (props) => {
 	}
 
 	function renderAuthProvider(provider: any){
-		return <AuthProvider key={provider?.name} provider={provider} serverInfo={serverInfo} />
+		return <AuthProvider key={provider?.name} provider={provider} serverInfo={serverInfo} />;
 	}
 
 	function renderAuthProviders(){
@@ -64,5 +66,9 @@ export const AuthProvidersLoginOptions: FunctionComponent = (props) => {
 	}, [])
 
 
-	return (renderAuthProviders())
+	return (
+		<View style={{flex: 1, backgroundColor: "orange", height: 500, width: 250}}>
+			{renderAuthProviders()}
+		</View>
+	)
 }

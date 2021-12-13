@@ -1,115 +1,83 @@
-import React, {createRef, FunctionComponent} from 'react';
-import {WebView, WebViewNavigation} from 'react-native-webview';
-import {SafeAreaView} from "react-native";
-import {View} from "native-base";
-import EnviromentHelper from "../EnviromentHelper";
+import React, {FunctionComponent, useEffect} from 'react';
+import {NavigatorHelper} from "../navigation/NavigatorHelper";
+import {Divider, Flex, Spinner, Text, View} from "native-base";
+import {FormButton} from "../buttons/FormButton";
+import {Home} from "../screens/home/Home";
+import {UserItem} from "@directus/sdk";
+import {SignOutButton} from "./SignOutButton";
+import App from "../App";
+import {EmailLogin} from "./EmailLogin";
+import {AuthProvidersLoginOptions} from "./AuthProvidersLoginOptions";
 
-let webViewRef = createRef<WebView>();
-
-const FUNCTION_NAME_CHECK_COOKIES = "checkCookies"
-
-const getJSCODEINJECTION = (backendURL: string) => {
-	const CHECK_COOKIE: string = `	
-	  ReactNativeWebView.postMessage("Cookie: " + document.cookie);
-	  let `+FUNCTION_NAME_CHECK_COOKIES+` = async () => {
-		try{
-				console.log("Try to fetch");
-				let answer = await fetch("`+backendURL+`/auth/refresh", {
-					"headers": {
-						"accept": "application/json, text/plain, */*",
-						"accept-language": "de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7",
-						"cache-control": "no-store",
-						"pragma": "no-cache",
-						"sec-gpc": "1"
-					},
-					"referrer": "`+backendURL+`/auth/refresh",
-					"referrerPolicy": "strict-origin-when-cross-origin",
-					"body": null,
-					"method": "POST",
-					"mode": "cors",
-					"credentials": "include"
-				});
-				console.log(answer);
-				let data = await answer.json();
-				console.log(data);
-				ReactNativeWebView.postMessage("Fetch: " + JSON.stringify(data));
-			} catch (err){
-				ReactNativeWebView.postMessage("Error: "+err);
-				console.log(err);
-			}
-	  }
-	  `+FUNCTION_NAME_CHECK_COOKIES+`();
-	  true;
-	`;
-	return CHECK_COOKIE;
+export interface WebViewLoginFormState {
+	user?: UserItem;
+	refresh: () => void,
+	loaded: boolean
 }
+export const WebViewLogin: FunctionComponent<WebViewLoginFormState> = (props) => {
 
-const onNavigationStateChange = (backendURL: string, navigationState: WebViewNavigation) => {
-	console.log("onNavigationStateChange");
-	console.log(navigationState.url);
-		if(!!webViewRef){
-			let injection = getJSCODEINJECTION(backendURL);
-			webViewRef.current.injectJavaScript(FUNCTION_NAME_CHECK_COOKIES+"();");
+	// corresponding componentDidMount
+	useEffect(() => {
+
+	}, [])
+
+	function renderSignIn(){
+		return(
+			<View>
+				<Text fontSize="4xl" fontWeight={800}>
+					{"Sign in"}
+				</Text>
+			</View>
+		)
+	}
+
+	function renderLoginOptions(){
+		let user = props.user;
+		if(!props.loaded){
+			return(
+				<View style={{flex: 1}}>
+					<View style={{marginVertical: "20px"}}></View>
+					<Spinner />
+					<View style={{marginVertical: "20px"}}></View>
+				</View>
+			)
 		}
-};
-
-const onMessage = (setLoggedIn, event: any) => {
-	console.log(webViewRef.current);
-	console.log("WebViewLogin: On Message");
-
-	const { data } = event.nativeEvent;
-
-	if (data.includes('Cookie:')) {
-		// process the cookies
-		console.log(data);
-	}
-	if (data.includes('Cookie:') || data.includes('Fetch:') || data.includes('Error:')) {
-		// process the cookies
-		console.log(data);
-	}
-	if (data.includes('Fetch:')) {
-		console.log(data);
-		if(!data.includes("errors")){
-			// process the cookies
-			setLoggedIn(true);
+		if(!!user){
+			let email = user.email;
+			return(
+				<View style={{flex: 1}}>
+					<View style={{marginVertical: "20px"}}></View>
+					<Text><Text bold={true} >{email}</Text> is currentrly authenticated. If you recognize this account, press continue.</Text>
+					<View style={{marginVertical: "20px"}}></View>
+					<Flex direction={"row"} justify={"space-between"}>
+						<SignOutButton />
+						<FormButton onPress={async () => {
+							await NavigatorHelper.navigate(Home)
+							await App.setHideDrawer(false);
+							//
+						}}>
+							{"Continue"}
+						</FormButton>
+					</Flex>
+				</View>
+			)
+		} else {
+			return(
+				<>
+					<EmailLogin />
+					<View style={{marginVertical: "20px"}} >
+						<Divider />
+					</View>
+					<AuthProvidersLoginOptions />
+				</>
+			)
 		}
 	}
-};
-
-interface AppState {
-	loaded: boolean;
-}
-export const WebViewLogin: FunctionComponent<AppState> = (props) => {
-	let backendURL = EnviromentHelper.getBackendURL();
-	console.log("backendURL: ", backendURL);
-
-	let injection = getJSCODEINJECTION(backendURL);
-
-	// Send the cookie information back to the mobile app
-
-
-	let sourceURI = backendURL+"/";
-	//sourceURI = "https://github.com/";
-	console.log("sourceURI: ",sourceURI);
-
-	const setLoggedIn = props.setLoggedIn;
 
 	return (
-		<View style={{position: "absolute", top: 0, height: "100%", width: "100%", backgroundColor: "red"}}>
-			<SafeAreaView />
-			<WebView
-				style={{backgroundColor: "green", height: "100%", width: "100%"}}
-				ref={webViewRef}
-				source={{uri: sourceURI}}
-				onNavigationStateChange={(navigationState) => onNavigationStateChange(backendURL, navigationState)}
-				onMessage={(event) => onMessage(setLoggedIn, event)}
-				javaScriptEnabled={true}
-				injectedJavaScript={'function myFunction() {\n' +
-				'  alert("Hello! I am an alert box!");\n' +
-				'}'}
-				sharedCookiesEnabled
-			>
-			</WebView>
-		</View>
+		<>
+			{renderSignIn()}
+			{renderLoginOptions()}
+		</>
 	)
 }

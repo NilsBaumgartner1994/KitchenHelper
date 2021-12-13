@@ -1,6 +1,6 @@
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
-import {Box, useColorModeValue, useToken} from 'native-base';
+import {Box, useColorModeValue, useToken, View} from 'native-base';
 import styleConfig from "../../../styleConfig.json"
 import EnviromentHelper from "../EnviromentHelper";
 import {RouteRegisterer} from "./RouteRegisterer";
@@ -37,16 +37,10 @@ export const Root = (props) => {
 				colors: { background: bgColor },
 			}}
 		>
-			<Box
-				flex={1}
-				w="100%"
-				bg={bgColor}
-				_web={{
-					//overflowX: 'hidden', //causes shaking on firefox
-				}}
+			<View style={{flex: 1, width: "100%", backgroundColor: bgColor}}
 			>
 				{props.children}
-			</Box>
+			</View>
 		</NavigationContainer>
 	);
 };

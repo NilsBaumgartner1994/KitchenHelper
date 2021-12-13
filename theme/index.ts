@@ -1,4 +1,5 @@
 import {extendTheme} from 'native-base';
+import {CSS_Helper} from "../helper/CSS_Helper";
 
 const sidebarWidth = 320;
 
@@ -28,7 +29,7 @@ export default class BaseThemeGenerator{
 						_light: {
 							backgroundColor: "rgb(23, 41, 64)"
 						},
-						paddingHorizontal: "12px",
+						paddingHorizontal: 12,
 						height: "52px"
 					}
 				}

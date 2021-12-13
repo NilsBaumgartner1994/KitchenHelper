@@ -6,6 +6,7 @@ import {Box, View} from "native-base";
 import {BreakPointLayout} from "./BreakPointLayout";
 import ShowMoreGradientPlaceholder from "../ShowMoreGradientPlaceholder";
 import {CookieInformation} from "../screens/legalRequirements/CookieInformation";
+import {SafeAreaView} from "react-native";
 
 export const BaseTemplate = ({
 								 children,
@@ -39,11 +40,12 @@ export const BaseTemplate = ({
 	}, [props.route.params])
 
 	return(
+		<SafeAreaView style={{height: "100%", width: "100%"}}>
 		<View flex={1} flexDirection={"row"}>
 		<Layout title={title} serverInfo={serverInfo} >
 			<ScrollViewWithGradient hideGradient={true} style={{width: "100%", height: "100%"}} >
 				<BreakPointLayout >
-					<Box alignItems={"start"} style={{height: "100%"}}>
+					<Box style={{height: "100%", alignItems: "flex-start"}}>
 						{children}
 						<ShowMoreGradientPlaceholder />
 					</Box>
@@ -52,5 +54,6 @@ export const BaseTemplate = ({
 		</Layout>
 		<CookieInformation />
 		</View>
+		</SafeAreaView>
 	)
 }

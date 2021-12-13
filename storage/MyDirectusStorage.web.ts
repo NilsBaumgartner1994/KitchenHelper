@@ -1,5 +1,3 @@
-import SyncStorage from 'sync-storage';
-
 const KEY_AUTH_REFRESH_TOKEN = 'auth_refresh_token'
 const KEY_AUTH_EXPIRES = 'auth_expires'
 const KEY_AUTH_ACCESS_TOKEN = 'auth_token'
@@ -17,16 +15,21 @@ interface MyDirectusStorageInterface{
 export class MyDirectusStorage implements MyDirectusStorageInterface/** extends Storage */{
 
     static async init(){
-        const data = await SyncStorage.init();
+
     }
 
     private getStorageImplementation(){
-        return SyncStorage;
+        //console.log("getStorageImplementation");
+        let cookie_config = this.get_cookie_config();
+        //console.log("cookie_config: ",cookie_config)
+        let necessaryAccepted = this.get_cookie_config()?.necessary;
+        //console.log("getStorageImplementation: necessaryAccepted: ",necessaryAccepted);
+        return necessaryAccepted ? localStorage : sessionStorage;
     }
 
     get_cookie_config(){
-        let sessionStorageConfig = null;
-        let localStorageConfig = SyncStorage.get(KEY_COOKIE_CONFIG);
+        let sessionStorageConfig = sessionStorage.getItem(KEY_COOKIE_CONFIG);
+        let localStorageConfig = localStorage.getItem(KEY_COOKIE_CONFIG);
 
         let usedCookieConfig = !!localStorageConfig ? localStorageConfig : sessionStorageConfig
         if(!!usedCookieConfig){
@@ -44,7 +47,11 @@ export class MyDirectusStorage implements MyDirectusStorageInterface/** extends 
     }
 
     set_cookie_config(config){
-        SyncStorage.set(KEY_COOKIE_CONFIG, JSON.stringify(config));
+        if(config.necessary){
+            localStorage.setItem(KEY_COOKIE_CONFIG, JSON.stringify(config))
+        } else {
+            sessionStorage.setItem(KEY_COOKIE_CONFIG, JSON.stringify(config))
+        }
     }
 
     set_refresh_token(token){
@@ -76,11 +83,11 @@ export class MyDirectusStorage implements MyDirectusStorageInterface/** extends 
     }
 
     getAuthRefreshToken(){
-        return this.getStorageImplementation().get(KEY_AUTH_REFRESH_TOKEN);
+        return this.getStorageImplementation().getItem(KEY_AUTH_REFRESH_TOKEN);
     }
 
     getAuthAccessToken(){
-        return this.getStorageImplementation().get(KEY_AUTH_ACCESS_TOKEN);
+        return this.getStorageImplementation().getItem(KEY_AUTH_ACCESS_TOKEN);
     }
 
     set auth_token(token) {
@@ -88,10 +95,10 @@ export class MyDirectusStorage implements MyDirectusStorageInterface/** extends 
     }
 
     get auth_token() {
-        return this.getStorageImplementation().get(KEY_AUTH_ACCESS_TOKEN);
+        return this.getStorageImplementation().getItem(KEY_AUTH_ACCESS_TOKEN);
     }
     get auth_expires() {
-        return Number(this.getStorageImplementation().get(KEY_AUTH_EXPIRES));
+        return Number(this.getStorageImplementation().getItem(KEY_AUTH_EXPIRES));
     }
 
     set auth_expires(time){
@@ -106,16 +113,16 @@ export class MyDirectusStorage implements MyDirectusStorageInterface/** extends 
     }
 
     get(key: string) {
-        return this.getStorageImplementation().get(key);
+        return this.getStorageImplementation().getItem(key);
         //return '';
     }
 
     set(key: string, value: string) {
-        this.getStorageImplementation().set(key, value);
+        this.getStorageImplementation().setItem(key, value);
         return value;
     }
     delete(key: string) {
-        this.getStorageImplementation().remove(key);
+        this.getStorageImplementation().removeItem(key);
         return null;
     }
 }

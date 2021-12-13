@@ -3,7 +3,7 @@ import {Flex, useBreakpointValue, View, Wrap} from "native-base";
 import ServerAPI from "../ServerAPI";
 import {Floaters} from "./Floaters";
 import {ScrollViewWithGradient} from "../ScrollViewWithGradient";
-import {useWindowDimensions} from "react-native";
+import {SafeAreaView, useWindowDimensions} from "react-native";
 import {PrivacyPolicy} from "../screens/legalRequirements/PrivacyPolicy";
 import {AboutUs} from "../screens/legalRequirements/AboutUs";
 import {License} from "../screens/legalRequirements/License";
@@ -94,6 +94,7 @@ export const LoginTemplate: FunctionComponent = (props) => {
 	}
 
 	return (
+		<SafeAreaView style={{height: "100%", width: "100%"}}>
 		<Flex
 			style={{height: "100%", width: "100%"}}
 			direction="row"
@@ -102,5 +103,6 @@ export const LoginTemplate: FunctionComponent = (props) => {
 			{renderRightSide()}
 			<Floaters />
 		</Flex>
+		</SafeAreaView>
 	)
 }

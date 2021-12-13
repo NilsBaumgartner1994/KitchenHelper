@@ -1,9 +1,12 @@
-const css = require('css');
-
 export class CSS_Helper{
 
+    static pxToPt(px){
+        return px*0.75; //https://www.w3.org/TR/css3-values/#absolute-lengths
+    }
+
     static parseCssToSelectorMap(custom_css) {
-        let parsed_css = css.parse(custom_css);
+        console.log(custom_css)
+        let parsed_css = {};
         let selectorsMap = {};
         let rules = parsed_css?.stylesheet?.rules || [];
         for(let rule of rules){

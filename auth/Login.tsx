@@ -7,10 +7,11 @@ import App from "../App";
 
 export const Login = (props) => {
 
+	let hideDrawer = false;
+
 	if(!App.shouldHideDrawer()){
 		//console.log("Login calls hide drawer");
-		App.setHideDrawer(true);
-		return null;
+		hideDrawer = true;
 	}
 	//console.log("Login passed drawer Check")
 
@@ -76,13 +77,21 @@ export const Login = (props) => {
 	// corresponding componentDidMount
 	useEffect(() => {
 		//console.log("Login useEffect")
-		fetchAccessToken();
+		if(hideDrawer){
+			App.setHideDrawer(true);
+		} else {
+			fetchAccessToken();
+		}
 	}, [props.route.params, firstload])
 
 	let finishedLoading = loaded;
 
 	if(!!directus_access_token){
 		finishedLoading = false;
+	}
+
+	if(hideDrawer){
+		return null;
 	}
 
 	return <WebViewLogin loaded={finishedLoading} user={user} />;

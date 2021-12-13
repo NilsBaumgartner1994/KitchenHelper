@@ -38,7 +38,7 @@ export class RouteRegisterer {
 
     static register(){
         RegisteredRoutesMap.reset();
-        RegisteredRoutesMap.setInitialRoute(Login);
+        RegisteredRoutesMap.setInitialRouteName("home");
 
         RouteRegisterer.registerLegalRequirements();
 
