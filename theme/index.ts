@@ -30,7 +30,7 @@ export default class BaseThemeGenerator{
 							backgroundColor: "rgb(23, 41, 64)"
 						},
 						paddingHorizontal: 12,
-						height: "52px"
+						height: 52
 					}
 				}
 			},

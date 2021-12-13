@@ -32,7 +32,7 @@ export const SignOutButton: FunctionComponent<AppState> = (props) => {
 			<AlertDialog
 				key={"SignOutAlertBox"}
 				leastDestructiveRef={cancelRef}
-				style={{maxWidth: "600px", alignSelf: "center"}}
+				style={{maxWidth: 600, alignSelf: "center"}}
 				isOpen={isOpen}
 				onClose={() => {setIsOpen(false)}}
 			>

@@ -4,7 +4,7 @@ export class URL_Helper{
 
     static getCurrentLocationWithoutQueryParams(){
         if(Platform.OS!=="web"){
-            return "test";
+            return "TODO: URL_Helper";
         } else {
             return URL_Helper.getLocationWithoutQueryParams(window.location.href);
         }

@@ -27,11 +27,16 @@ export const EmailLogin: FunctionComponent<WebViewLoginFormState> = (props) => {
 		await setLoginInitiated(true);
 		try{
 			let directus = ServerAPI.getPublicClient();
+			console.log("handleLoginWithEmail")
+			console.log("email: ", email)
+			console.log("password: ", password)
 			let response = await directus.auth.login({
 				email: email, //'admin@example.com',
 				password: password //'d1r3ctu5',
 			});
 			let token = response.refresh_token;
+			console.log("Ok got token: ");
+			console.log(token);
 			NavigatorHelper.navigate(Login, {[EnviromentHelper.getDirectusAccessTokenName()]: token} )
 		} catch (err){
 			console.log(err);
@@ -73,25 +78,27 @@ export const EmailLogin: FunctionComponent<WebViewLoginFormState> = (props) => {
 			return(
 				<>
 					<FormControl isRequired>
-						<View style={{marginVertical: "10px"}}>
+						<View style={{marginVertical: 10}}>
 							<Input
 								isDisabled={loginInitiated}
 								nativeID={"username"}
 								type={"email"}
 								//TODO extract the on change method to an extra class to call the callback
 								onChange={async (event) => { // @ts-ignore
-									setEmail(event.target.value)}}
+									setEmail(event.nativeEvent.text)
+								}}
 								placeholder="Email" size="lg" />
 						</View>
 					</FormControl>
 					<FormControl isRequired>
-						<View style={{marginVertical: "10px"}} >
+						<View style={{marginVertical: 10}} >
 							<Input
 								isDisabled={loginInitiated}
 								nativeID={"password"}
 								type={"password"}
 								onChange={(event) => { // @ts-ignore
-									setPassword(event.target.value)}} placeholder="Password" size="lg" />
+									setPassword(event.nativeEvent.text)
+								}} placeholder="Password" size="lg" />
 						</View>
 					</FormControl>
 					<Flex direction={"row"} justify={"space-between"} >

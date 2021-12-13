@@ -67,7 +67,9 @@ export class NavigatorHelper {
 
     static navigateWithoutParams(registeredComponent: FunctionComponent, resetHistory: boolean=false, newParams=null){
         //NavigatorHelper.clearURLParams();
-        let emptyProps = {} //NavigatorHelper.getEmptyParams();
+        let emptyProps = NavigatorHelper.getEmptyParams();
+        console.log("emptryProps");
+        console.log(emptyProps);
         if(!newParams){
             newParams = {};
         }

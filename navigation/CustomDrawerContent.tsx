@@ -12,6 +12,7 @@ import {UserProfileAvatar} from "../project/UserProfileAvatar";
 import ServerAPI from "../ServerAPI";
 import {SignOutButton} from "../auth/SignOutButton";
 import {Users} from "../screens/user/Users";
+import {SafeAreaView} from "react-native";
 
 export const CustomDrawerContent: FunctionComponent = (props) => {
 
@@ -61,7 +62,7 @@ export const CustomDrawerContent: FunctionComponent = (props) => {
 		return (
 				<ExpandableDrawerItem
 					expanded={menu.expanded}
-					key={menu.key}
+					key={"ExpandableDrawerItem"+menu.key}
 					hasChildren={hasChildren}
 					level={level}
 					label={() => {
@@ -134,6 +135,7 @@ export const CustomDrawerContent: FunctionComponent = (props) => {
 
 	return (
 		<MyThemedBox style={{height: "100%"}}>
+			<SafeAreaView style={{height: "100%", width: "100%"}}>
 			<DrawerContentScrollView {...props}>
 				<DrawerItem
 					key={"ProjectLogoItem"}
@@ -150,6 +152,7 @@ export const CustomDrawerContent: FunctionComponent = (props) => {
 				{renderDrawerItems()}
 			</DrawerContentScrollView>
 			{renderProfileAndLogoutPanel()}
+			</SafeAreaView>
 		</MyThemedBox>
 	);
 }

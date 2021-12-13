@@ -25,7 +25,7 @@ export const FormButton: FunctionComponent<AppState & IButtonProps & IBoxProps> 
 	}
 
 	return (
-		<Button style={{minWidth: "154px"}} {...props}>
+		<Button style={{minWidth: 154}} {...props}>
 			{content}
 		</Button>
 	)

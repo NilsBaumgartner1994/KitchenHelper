@@ -4,6 +4,7 @@ import EnviromentHelper from "../EnviromentHelper";
 import ServerAPI from "../ServerAPI";
 import {NavigatorHelper} from "../navigation/NavigatorHelper";
 import App from "../App";
+import {Platform} from "react-native";
 
 export const Login = (props) => {
 
@@ -13,6 +14,11 @@ export const Login = (props) => {
 		//console.log("Login calls hide drawer");
 		hideDrawer = true;
 	}
+	if(Platform.OS!=="web"){
+		hideDrawer = false;
+	}
+
+
 	//console.log("Login passed drawer Check")
 
 	const user = App.getUser();

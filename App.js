@@ -10,6 +10,15 @@ import {MyDirectusStorage} from "./storage/MyDirectusStorage";
 import ServerAPI from "./ServerAPI";
 import {RouteRegisterer} from "./navigation/RouteRegisterer";
 import Project from "../project/Project";
+import {LogBox} from "react-native";
+
+if(!!LogBox){
+	LogBox.ignoreLogs([
+		'Warning: isMounted(...) is deprecated', // works
+		'Module RCTImageLoader', // works
+		'Require cycle:', // doesn't work
+	])
+}
 
 export default class App extends React.Component{
 
@@ -20,6 +29,7 @@ export default class App extends React.Component{
 
 	constructor(props) {
 		super(props);
+		console.log("App constructor");
 		App.instance = this;
   		App.storage = new MyDirectusStorage();
 		App.plugin = Project;

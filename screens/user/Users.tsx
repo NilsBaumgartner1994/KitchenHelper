@@ -55,10 +55,10 @@ export const Users = (props) => {
 	}
 
 	function renderRowInformation(icon, content){
-		let renderedIcon = !!icon ? <Text><Icon as={MaterialCommunityIcons} name={icon} marginRight={"15px"}/></Text> : null;
+		let renderedIcon = !!icon ? <Text><Icon as={MaterialCommunityIcons} name={icon} marginRight={15}/></Text> : null;
 
 		return (
-			<View style={{alignItems: "center", flexDirection: "row", margin: "3px"}}>
+			<View style={{alignItems: "center", flexDirection: "row", margin: 3}}>
 				{renderedIcon}<Text>{content}</Text>
 			</View>
 		)

@@ -95,10 +95,10 @@ export const WebViewLoginWithWebview: FunctionComponent<AppState> = (props) => {
 	const setLoggedIn = props.setLoggedIn;
 
 	return (
-		<View style={{position: "absolute", top: 0, height: "100%", width: "100%", backgroundColor: "red"}}>
+		<View style={{position: "absolute", top: 0, height: "100%", width: "100%"}}>
 			<SafeAreaView />
 			<WebView
-				style={{backgroundColor: "green", height: "100%", width: "100%"}}
+				style={{height: "100%", width: "100%"}}
 				ref={webViewRef}
 				source={{uri: sourceURI}}
 				onNavigationStateChange={(navigationState) => onNavigationStateChange(backendURL, navigationState)}

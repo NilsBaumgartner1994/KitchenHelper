@@ -36,9 +36,9 @@ export const WebViewLogin: FunctionComponent<WebViewLoginFormState> = (props) =>
 		if(!props.loaded){
 			return(
 				<View style={{flex: 1}}>
-					<View style={{marginVertical: "20px"}}></View>
+					<View style={{marginVertical: 20}}></View>
 					<Spinner />
-					<View style={{marginVertical: "20px"}}></View>
+					<View style={{marginVertical: 20}}></View>
 				</View>
 			)
 		}
@@ -46,9 +46,9 @@ export const WebViewLogin: FunctionComponent<WebViewLoginFormState> = (props) =>
 			let email = user.email;
 			return(
 				<View style={{flex: 1}}>
-					<View style={{marginVertical: "20px"}}></View>
+					<View style={{marginVertical: 20}}></View>
 					<Text><Text bold={true} >{email}</Text> is currentrly authenticated. If you recognize this account, press continue.</Text>
-					<View style={{marginVertical: "20px"}}></View>
+					<View style={{marginVertical: 20}}></View>
 					<Flex direction={"row"} justify={"space-between"}>
 						<SignOutButton />
 						<FormButton onPress={async () => {
@@ -65,7 +65,7 @@ export const WebViewLogin: FunctionComponent<WebViewLoginFormState> = (props) =>
 			return(
 				<>
 					<EmailLogin />
-					<View style={{marginVertical: "20px"}} >
+					<View style={{marginVertical: 20}} >
 						<Divider />
 					</View>
 					<AuthProvidersLoginOptions />

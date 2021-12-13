@@ -20,7 +20,7 @@ export const ProjectName: FunctionComponent<AppState> = (props) => {
 	}
 
 	return(
-		<View style={{flex: 1, marginTop: "2px", marginLeft: "16px", justifyContent: "center"}}>
+		<View style={{marginTop: 2, marginLeft: 16, justifyContent: "center"}}>
 			<Text fontSize="2xl" fontWeight={"bold"} color={color}>
 				{project_name}
 			</Text>

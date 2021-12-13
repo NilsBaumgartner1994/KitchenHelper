@@ -30,7 +30,7 @@ export const ResetPasswordForm: FunctionComponent = (props) => {
 				{"Reset Password"}
 			</Text>
 			<FormControl isRequired>
-				<View style={{marginVertical: "10px"}}>
+				<View style={{marginVertical: 10}}>
 					<Input
 						isDisabled={true}
 						value={email}
@@ -38,7 +38,7 @@ export const ResetPasswordForm: FunctionComponent = (props) => {
 				</View>
 			</FormControl>
 			<FormControl isRequired>
-				<View style={{marginVertical: "10px"}}>
+				<View style={{marginVertical: 10}}>
 					<Input
 						isDisabled={resetInitiated}
 						onChange={(event) => { // @ts-ignore

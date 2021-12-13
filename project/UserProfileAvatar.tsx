@@ -5,7 +5,7 @@ import {ServerInfo, UserItem} from "@directus/sdk";
 import ServerAPI from "../ServerAPI";
 import {DirectusImage} from "./DirectusImage";
 
-const titleBoxHeight = "64px";
+const titleBoxHeight = 64;
 
 interface AppState {
 	user?: UserItem;
@@ -38,7 +38,7 @@ export const UserProfileAvatar: FunctionComponent<AppState> = (props) => {
 
 	return(
 		// @ts-ignore
-		<View style={{height: dimension, width: dimension, borderRadius: "6px", alignItems: "center", justifyContent: "center"}}>
+		<View style={{height: dimension, width: dimension, borderRadius: 6, alignItems: "center", justifyContent: "center"}}>
 			<DirectusImage showLoading={true} assetId={avatarAssetId} onPress={props.onPress} style={{height: "100%", width: "100%"}} />
 		</View>
 	)

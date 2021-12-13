@@ -13,7 +13,7 @@ import {InternalLink} from "../navigation/InternalLink";
 import {ProjectBackground} from "../project/ProjectBackground";
 import {CookieInformation} from "../screens/legalRequirements/CookieInformation";
 
-const titleBoxHeight = "64px";
+const titleBoxHeight = 64;
 
 export const LoginTemplate: FunctionComponent = (props) => {
 	/**
@@ -58,13 +58,13 @@ export const LoginTemplate: FunctionComponent = (props) => {
 
 	function renderLeftSide(){
 
-		let padding = isSmallDevice ? "20px": "80px";
-		let width = isSmallDevice ? "100%" : "500px";
+		let padding = isSmallDevice ? 20: 80;
+		let width = isSmallDevice ? "100%" : 500;
 
 		return(
 			<Flex style={{width: width, height: "100%"}}>
 				<ScrollViewWithGradient style={{flex: 1}}>
-					<View style={{paddingHorizontal: padding, paddingTop: padding, height: "100%"}}>
+					<View style={{paddingHorizontal: padding, paddingTop: padding, height: "100%", width: "100%"}}>
 						<ProjectBanner />
 						{renderSpaceBetweenLogoAndSignIn()}
 						{props.children}

@@ -50,7 +50,7 @@ export const RequestResetPasswordForm: FunctionComponent = (props) => {
 				{"Reset Password"}
 			</Text>
 			<FormControl isRequired>
-				<View style={{marginVertical: "10px"}}>
+				<View style={{marginVertical: 10}}>
 					<Input
 						onChange={(event) => { // @ts-ignore
 							setEmail(event.target.value)}}

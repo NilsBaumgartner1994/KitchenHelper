@@ -67,7 +67,7 @@ export const AuthProvidersLoginOptions: FunctionComponent = (props) => {
 
 
 	return (
-		<View style={{flex: 1, backgroundColor: "orange", height: 500, width: 250}}>
+		<View style={{flex: 1}}>
 			{renderAuthProviders()}
 		</View>
 	)
