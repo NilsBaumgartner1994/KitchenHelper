@@ -32,20 +32,32 @@ export const ExpandableDrawerItem: FunctionComponent<AppState> = (props) => {
         }
     }
 
-    return(
-        <MyThemedBox _shadeLevel={props.level} >
-            <TouchableOpacity onPress={handleOnPress} style={{padding: 8}}>
-                <View style={{flexDirection: "row", alignItems: "center"}}>
-                    {renderExpandIcon()}
-                    {props.label()}
-                </View>
-            </TouchableOpacity>
+    function renderContent(){
+        if(!expanded){
+            return null;
+        }
+
+        return(
             <View style={{paddingLeft: 15}}>
-                <DrawerContentScrollView style={{padding: 0}}>
-                    {expanded ? props.children : null}
+                <DrawerContentScrollView contentContainerStyle={{paddingTop: 0, backgroundColor: "green"}}>
+                    {props.children}
                 </DrawerContentScrollView>
             </View>
-        </MyThemedBox>
+        )
+    }
+
+    return(
+        <View style={{width: "100%"}}>
+            <MyThemedBox _shadeLevel={props.level} style={{width: "100%"}} >
+                <TouchableOpacity onPress={handleOnPress} style={{padding: 8}}>
+                    <View style={{flexDirection: "row", alignItems: "center"}}>
+                        {renderExpandIcon()}
+                        {props.label()}
+                    </View>
+                </TouchableOpacity>
+                {renderContent()}
+            </MyThemedBox>
+        </View>
     )
 
 }
