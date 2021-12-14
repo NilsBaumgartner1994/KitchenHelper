@@ -38,7 +38,7 @@ export const AuthProvider: FunctionComponent<AppState> = ({serverInfo, provider}
 	let icon = provider?.icon;
 	let project_color = serverInfo?.project?.project_color;
 	let custom_css = serverInfo?.project?.custom_css || ""; // custom_css:
-	let parsed_css = null; //CSS_Helper.parseCssToSelectorMap(custom_css);
+	let parsed_css = CSS_Helper.parseCssToSelectorMap(custom_css);
 
 	let customSsoIconStyle = parsed_css?.[".sso-icon"] || {};
 	let iconBackgroundColor = customSsoIconStyle?.background || project_color;
