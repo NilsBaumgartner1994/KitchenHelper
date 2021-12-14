@@ -68,7 +68,7 @@ export const CustomDrawerContent: FunctionComponent = (props) => {
 					label={() => {
 						return content
 					}}
-					onPress={() => {menu.handleOnPress()}}
+					onPress={(nextExpanded) => {menu.handleOnPress()}}
 				>
 					{renderedChilds}
 				</ExpandableDrawerItem>

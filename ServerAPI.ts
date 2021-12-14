@@ -13,6 +13,10 @@ export default class ServerAPI{
 		serverInfo: undefined
 	};
 
+	static getAxiosInstance(){
+		return axios.create();
+	}
+
 	/**
 	 * We want a public client to get dont interfere with broken permissions and other stuff
 	 */

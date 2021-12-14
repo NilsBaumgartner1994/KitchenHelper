@@ -6,7 +6,7 @@ import {MyThemedBox} from "../helper/MyThemedBox";
 import {MaterialCommunityIcons} from "@expo/vector-icons";
 
 export interface AppState {
-    onPress?: () => {}
+    onPress?: (nextExpanded?) => {}
     expanded?: boolean
 }
 export const ExpandableDrawerItem: FunctionComponent<AppState> = (props) => {
@@ -25,9 +25,11 @@ export const ExpandableDrawerItem: FunctionComponent<AppState> = (props) => {
         }
     }
 
-    function handleOnPress(){
+    async function handleOnPress(){
         setExpanded(!expanded);
-        handlePress();
+        if(!!handlePress){
+            await handlePress(!expanded);
+        }
     }
 
     return(
