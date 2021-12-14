@@ -33,8 +33,12 @@ export const DirectusImage: FunctionComponent<AppState> = (props) => {
 			}
 			url+="&access_token="+token;
 		}
+		let source={
+			uri: url
+		}
+
 		content = (<>
-			<Image source={url} alt={props.alt} style={props.style} ignoreFallback={true}
+			<Image source={source} alt={props.alt} style={props.style} ignoreFallback={true}
 				   onLoadEnd={() => {
 					   setLoading(false)
 				   }}
