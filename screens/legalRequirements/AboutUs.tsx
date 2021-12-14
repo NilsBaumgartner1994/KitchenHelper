@@ -1,5 +1,5 @@
 import React, {useEffect} from "react";
-import {Pressable, Text, View} from "native-base";
+import {Text} from "native-base";
 import TextGenerator from "../../placeholder/TextGenerator";
 import App from "../../App";
 

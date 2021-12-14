@@ -14,14 +14,9 @@ import {Linking, LogBox} from "react-native";
 import * as ExpoLinking from "expo-linking";
 import {URL_Helper} from "./helper/URL_Helper";
 import {NavigatorHelper} from "./navigation/NavigatorHelper";
+import LogIgnorer from "./helper/LogIgnorer";
 
-if(!!LogBox){
-	LogBox.ignoreLogs([
-		'Warning: isMounted(...) is deprecated', // works
-		'Module RCTImageLoader', // works
-		'Require cycle:', // doesn't work
-	])
-}
+LogIgnorer.ignoreLogs();
 
 export default class App extends React.Component{
 
