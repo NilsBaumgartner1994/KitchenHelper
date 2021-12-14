@@ -3,17 +3,15 @@ import {Link, Skeleton, Text, View} from "native-base";
 import TextGenerator from "../../placeholder/TextGenerator";
 import App from "../../App";
 import currentpackageJson from "./../../../../package.json";
+import currentpackageJsonLock from "./../../../../package-lock.json";
+import thirdpartyLicense from "./../../../../thirdpartyLicense.json";
 import {ExpandableDrawerItem} from "../../navigation/ExpandableDrawerItem";
 import {MyThemedBox} from "../../helper/MyThemedBox";
-import ServerAPI from "../../ServerAPI";
-import axios from "axios";
-import proxiedFetch from 'proxied-fetch';
+import {TextWithIcon} from "../../components/TextWithIcon";
 
 export const License = (props) => {
 
 	App.setHideDrawer(false);
-
-	const [dependencyInformation, setDependencyInformation] = useState({});
 
 	// corresponding componentDidMount
 	useEffect(() => {
@@ -24,82 +22,81 @@ export const License = (props) => {
 		return "https://registry.npmjs.org/"+dependencyKey;
 	}
 
-	async function downloadRemotePackageInformations(dependencyKey, version){
-		let url = getUrlToPackageInformation(dependencyKey);
-		let informations = null;
-
-		let getProvidersURL = ServerAPI.getAPIUrl()+"/auth";
-		console.log("getProvidersURL: ",getProvidersURL);
-
-		try{
-			let answer = await axios.get(getProvidersURL);
-			let providers = answer?.data?.data;
-			console.log(providers);
-		} catch (err){
-			console.log(err)
-		}
-
-		try{
-			let resp = await proxiedFetch(url);
-			console.log(resp);
-		} catch (err){
-			console.log(err);
-		}
-
-		let copy = {...dependencyInformation}
-		copy[dependencyKey] = JSON.stringify(informations);
-		setDependencyInformation(copy)
-	}
-
 	function renderAllPackages(){
 		let output = [];
 		let dependencies = currentpackageJson?.dependencies || {};
+		let lockPackageDependencies = currentpackageJsonLock?.packages || {};
+
 		let dependencyKeys = Object.keys(dependencies);
 		for(let dependencyKey of dependencyKeys){
-			let version = dependencies[dependencyKey];
-			output.push(renderPackage(dependencyKey, version));
+			let upperVersion = dependencies[dependencyKey];
+
+			let keyInPackageLockDependency = "node_modules/"+dependencyKey;
+			let packageLockDependency = lockPackageDependencies[keyInPackageLockDependency] || {};
+			let currentVersion = packageLockDependency?.version;
+
+			let thirdpartyDependency = thirdpartyLicense[dependencyKey+"@"+currentVersion];
+
+			output.push(renderPackage(dependencyKey, upperVersion, currentVersion, thirdpartyDependency));
 		}
 		return output;
 	}
 
-	function renderPackageLabel(dependencyKey, version){
-		return <Text>{dependencyKey}</Text>
-	}
-
-	function renderDownloadedInformations(dependencyKey){
-		let remoteInformations = dependencyInformation[dependencyKey]
-		if(!remoteInformations){
-			return (
-				<Skeleton style={{width: "100%", height: 40}} />
-			)
-		}
-	}
-
-	function renderPackageInformations(dependencyKey, version){
-		let url = getUrlToPackageInformation(dependencyKey);
-
+	function renderPackageLabel(dependencyKey, upperVersion, currentVersion, thirdpartyDependencyn){
 		return (
-			<MyThemedBox _shadeLevel={3}>
-				<Link key={"Link: " + dependencyKey} href={url} >
-					<Text>{url}</Text>
-				</Link>
-				{renderDownloadedInformations(dependencyKey)}
-			</MyThemedBox>
+			<View>
+				<Text>{dependencyKey}</Text>
+			</View>
 		)
 	}
 
-	async function handlePressPackage(dependencyKey, version){
-		setTimeout(() => {downloadRemotePackageInformations(dependencyKey, version)}, 1000)
+	function renderDownloadedInformations(dependencyKey, upperVersion, currentVersion, thirdpartyDependency){
+		let url = getUrlToPackageInformation(dependencyKey);
+		let license = thirdpartyDependency?.licenses || "unkown"
+		let publisher = thirdpartyDependency?.publisher || "unkown"
+		let email = thirdpartyDependency?.email || "unkown"
+
+		return(
+			<View>
+				<TextWithIcon icon={"web"} >
+					<Link key={"Link: " + dependencyKey} href={url} >
+						<Text>{url}</Text>
+					</Link>
+				</TextWithIcon>
+				<TextWithIcon icon={"license"} >
+					<Text><Text bold={true}>{"License: "}</Text>{license}</Text>
+				</TextWithIcon>
+				<TextWithIcon icon={"account-circle"} >
+					<Text><Text bold={true}>{"Publisher: "}</Text>{publisher}</Text>
+				</TextWithIcon>
+				<TextWithIcon icon={"email"} >
+					<Text><Text bold={true}>{"Email: "}</Text>{email}</Text>
+				</TextWithIcon>
+
+				<Text>{JSON.stringify(thirdpartyDependency)}</Text>
+			</View>
+		)
 	}
 
-	function renderPackage(dependencyKey, version){
+	function renderPackageInformations(dependencyKey, upperVersion, currentVersion, thirdpartyDependency){
+		return (
+			<View >
+				<MyThemedBox _shadeLevel={3}>
+					<View>
+					{renderDownloadedInformations(dependencyKey, upperVersion, currentVersion, thirdpartyDependency)}
+					</View>
+				</MyThemedBox>
+			</View>
+		)
+	}
+
+	function renderPackage(dependencyKey, upperVersion, currentVersion, thirdpartyDependency){
 		return (
 			<ExpandableDrawerItem
 				level={2}
 				hasChildren={true}
-				onPress={() => {handlePressPackage(dependencyKey, version)}}
-				label={() => {return renderPackageLabel(dependencyKey, version)}}>
-				{renderPackageInformations(dependencyKey, version)}
+				label={() => {return renderPackageLabel(dependencyKey, upperVersion, currentVersion, thirdpartyDependency)}}>
+				{renderPackageInformations(dependencyKey, upperVersion, currentVersion, thirdpartyDependency)}
 			</ExpandableDrawerItem>
 		);
 	}

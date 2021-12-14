@@ -45,7 +45,7 @@ export const BaseTemplate = ({
 		<Layout title={title} serverInfo={serverInfo} >
 			<ScrollViewWithGradient hideGradient={true} style={{width: "100%", height: "100%"}} >
 				<BreakPointLayout >
-					<Box style={{height: "100%", alignItems: "flex-start"}}>
+					<Box style={{height: "100%", alignItems: "flex-start", width: "100%"}}>
 						{children}
 						<ShowMoreGradientPlaceholder />
 					</Box>
