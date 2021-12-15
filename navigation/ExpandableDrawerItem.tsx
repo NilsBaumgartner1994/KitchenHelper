@@ -39,7 +39,7 @@ export const ExpandableDrawerItem: FunctionComponent<AppState> = (props) => {
 
         return(
             <View style={{paddingLeft: 15}}>
-                <DrawerContentScrollView contentContainerStyle={{paddingTop: 0, backgroundColor: "green"}}>
+                <DrawerContentScrollView contentContainerStyle={{paddingTop: 0}}>
                     {props.children}
                 </DrawerContentScrollView>
             </View>
