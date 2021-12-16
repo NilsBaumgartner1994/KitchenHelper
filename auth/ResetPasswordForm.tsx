@@ -49,13 +49,13 @@ export const ResetPasswordForm: FunctionComponent = (props) => {
 						size="lg" />
 				</View>
 			</FormControl>
-			<Flex direction={"row"} justify={"space-between"}>
+			<View style={{flexDirection: "row", justifyContent: "space-between", flex: 1}} >
 				<FormButton loading={resetInitiated} disabled={resetInitiated} onPress={() => {resetPassword()}}>
 					{"Reset"}
 				</FormButton>
 				<Slider onChange={(e) => {}} />
 				<InternalLink destination={Login}>{"Sign In"}</InternalLink>
-			</Flex>
+			</View>
 		</View>
 	)
 }

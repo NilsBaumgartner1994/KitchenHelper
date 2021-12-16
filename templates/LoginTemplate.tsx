@@ -62,7 +62,7 @@ export const LoginTemplate: FunctionComponent = (props) => {
 		let width = isSmallDevice ? "100%" : 500;
 
 		return(
-			<Flex style={{width: width, height: "100%"}}>
+			<View style={{width: width, height: "100%"}}>
 				<ScrollViewWithGradient style={{flex: 1}}>
 					<View style={{paddingHorizontal: padding, paddingTop: padding, height: "100%", width: "100%"}}>
 						<ProjectBanner />
@@ -70,16 +70,14 @@ export const LoginTemplate: FunctionComponent = (props) => {
 						{props.children}
 					</View>
 				</ScrollViewWithGradient>
-				<Wrap
-					direction="row"
-					justify="center"
+				<View style={{flexWrap: "wrap", flexDirection: "row", justifyContent: "center"}}
 				>
 					<InternalLink destination={AboutUs} fontSize={"sm"}>{"About Us"}</InternalLink>
 					<InternalLink destination={License} fontSize={"sm"}>{"License"}</InternalLink>
 					<InternalLink destination={PrivacyPolicy} fontSize={"sm"}>{"Privacy Policy"}</InternalLink>
 					<InternalLink destination={TermsAndConditions} fontSize={"sm"}>{"Terms & Conditions"}</InternalLink>
-				</Wrap>
-			</Flex>
+				</View>
+			</View>
 		);
 	}
 
@@ -95,14 +93,13 @@ export const LoginTemplate: FunctionComponent = (props) => {
 
 	return (
 		<SafeAreaView style={{height: "100%", width: "100%"}}>
-		<Flex
-			style={{height: "100%", width: "100%"}}
-			direction="row"
+		<View
+			style={{height: "100%", width: "100%", flexDirection: "row"}}
 		>
 			{renderLeftSide()}
 			{renderRightSide()}
 			<Floaters />
-		</Flex>
+		</View>
 		</SafeAreaView>
 	)
 }
