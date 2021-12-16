@@ -1,4 +1,6 @@
-	export default class EnviromentHelper{
+import * as AppConfig from "./../../app.config";
+
+export default class EnviromentHelper{
 
 	static getDirectusAccessTokenName(){
 		return "directus_access_token";
@@ -17,7 +19,7 @@
 	}
 
 	static getBackendURL(): string{
-		return EnviromentHelper.getCustomEnvVariables().BACKEND_URL || "https://se-services.informatik.uos.de/myapp/api";
+		return EnviromentHelper.getCustomEnvVariables().BACKEND_URL || AppConfig.default.extra.BACKEND_URL;
 	}
 
 	static getAssetURL(file_id): any{
@@ -28,7 +30,7 @@
 	}
 
 	static getBasePath(): string{
-		return EnviromentHelper.getCustomEnvVariables().BASE_PATH;
+		return EnviromentHelper.getCustomEnvVariables().BASE_PATH || AppConfig.default.extra.BASE_PATH;
 	}
 
 }
