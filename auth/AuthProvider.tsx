@@ -50,14 +50,14 @@ export const AuthProvider: FunctionComponent<AppState> = ({serverInfo, provider}
 
 	return (
 		<Link key={"Link"+providerName} href={url} >
-			<Flex direction={"row"} _light={{backgroundColor: "rgb(240, 244, 249)"}} _dark={{backgroundColor: "darkgray"}} style={{borderRadius: 6, flex: 1, margin: 12}}>
+			<View _light={{backgroundColor: "rgb(240, 244, 249)"}} _dark={{backgroundColor: "darkgray"}} style={{borderRadius: 6, flex: 1, margin: 12, flexDirection: "row"}}>
 				<View style={{height: 60, width: 60, alignItems: "center", justifyContent: "center", backgroundColor: iconBackgroundColor, borderRadius: 6}}>
 					{renderIcon(icon, customVIconStyle.color)}
 				</View>
 				<View style={{justifyContent: "center", flex: 1, paddingLeft: 20}}>
 					<Text>{"Log in with "+providerNameReadable}</Text>
 				</View>
-			</Flex>
+			</View>
 		</Link>
 	)
 }
