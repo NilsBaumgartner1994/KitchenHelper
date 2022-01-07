@@ -60,12 +60,12 @@ export const RequestResetPasswordForm: FunctionComponent = (props) => {
 						size="lg" />
 				</View>
 			</FormControl>
-			<View style={{flexDirection: "row", justifyContent: "space-between", flex: 1}} >
+			<Flex direction={"row"} justify={"space-between"}>
 				<FormButton disabled={resetInitiated} onPress={() => {requestPasswordReset()}}>
 					{"Reset"}
 				</FormButton>
 				<InternalLink destination={Login}>{"Sign In"}</InternalLink>
-			</View>
+			</Flex>
 		</View>
 	)
 }

@@ -101,14 +101,12 @@ export const EmailLogin: FunctionComponent<WebViewLoginFormState> = (props) => {
 								}} placeholder="Password" size="lg" />
 						</View>
 					</FormControl>
-					<View
-						style={{flex: 1, flexDirection: "row", justifyContent: "space-between"}}
-					>
+					<Flex direction={"row"} justify={"space-between"} >
 						<FormButton loading={loginInitiated} disabled={loginInitiated} onPress={() => {handleLoginWithEmail()}}>
 							{"Sign In"}
 						</FormButton>
 						{renderResetPasswordButton()}
-					</View>
+					</Flex>
 				</>
 			)
 		}
