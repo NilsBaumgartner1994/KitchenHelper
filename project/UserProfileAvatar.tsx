@@ -1,9 +1,11 @@
 import React, {FunctionComponent, useEffect, useState} from 'react';
-import {Image, View} from "native-base";
+import {Icon, Image, View} from "native-base";
 import {ServerInfoHelper} from "../helper/ServerInfoHelper";
 import {ServerInfo, UserItem} from "@directus/sdk";
 import ServerAPI from "../ServerAPI";
 import {DirectusImage} from "./DirectusImage";
+import {TouchableOpacity} from "react-native";
+import {MaterialCommunityIcons} from "@expo/vector-icons";
 
 const titleBoxHeight = 64;
 
@@ -34,12 +36,33 @@ export const UserProfileAvatar: FunctionComponent<AppState> = (props) => {
 
 	let avatarAssetId = displayUser?.avatar;
 
+	let content = (
+		<Icon
+			as={MaterialCommunityIcons}
+			name={"account-circle"}
+			style={{}}
+		/>
+	)
+	if(!!avatarAssetId){
+		content = <DirectusImage showLoading={true} assetId={avatarAssetId} style={{height: "100%", width: "100%"}} />;
+	}
+
+
 	let dimension = props.heightAndWidth || titleBoxHeight;
 
-	return(
-		// @ts-ignore
-		<View style={{height: dimension, width: dimension, borderRadius: 6, alignItems: "center", justifyContent: "center"}}>
-			<DirectusImage showLoading={true} assetId={avatarAssetId} onPress={props.onPress} style={{height: "100%", width: "100%"}} />
-		</View>
-	)
+	if(!!props.onPress){
+		return(
+			// @ts-ignore
+			<TouchableOpacity onPress={props.onPress} style={{height: dimension, width: dimension, borderRadius: 6, alignItems: "center", justifyContent: "center"}}>
+				{content}
+			</TouchableOpacity>
+		)
+	} else {
+		return(
+			// @ts-ignore
+			<View style={{height: dimension, width: dimension, borderRadius: 6, alignItems: "center", justifyContent: "center"}}>
+				{content}
+			</View>
+		)
+	}
 }

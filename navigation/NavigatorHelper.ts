@@ -3,6 +3,8 @@ import {NavigationContainerRef, StackActions, DrawerActions, CommonActions} from
 import {RegisteredRoutesMap} from "./RegisteredRoutesMap";
 import ServerAPI from "../ServerAPI";
 import {RouteRegisterer} from "./RouteRegisterer";
+import {Home} from "../screens/home/Home";
+import App from "../App";
 
 
 // todo Update to newest ReactNavigation
@@ -33,11 +35,21 @@ export class NavigatorHelper {
         return navigationRef?.current;
     }
 
+    static async handleContinueAfterAuthenticated(){
+        await NavigatorHelper.navigate(Home)
+        await App.setHideDrawer(false);
+    }
+
     static async navigateHome(){
-        try{
-            let me = await ServerAPI.getMe()
-            NavigatorHelper.navigate(RouteRegisterer.HOME_AUTHENTICATED)
+        let me = null;
+        try {
+            me = await App.loadUser();
         } catch (err){
+            console.log(err);
+        }
+        if(!!me){
+            NavigatorHelper.navigate(RouteRegisterer.HOME_AUTHENTICATED)
+        } else {
             NavigatorHelper.navigate(RouteRegisterer.HOME_UNAUTHENTICATED)
         }
     }

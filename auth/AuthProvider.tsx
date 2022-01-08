@@ -6,14 +6,18 @@ import {StringHelper} from "../helper/StringHelper";
 import {CSS_Helper} from "../helper/CSS_Helper";
 import ServerAPI from "../ServerAPI";
 import {URL_Helper} from "../helper/URL_Helper";
+import {Provider} from "./Provider";
+import {TouchableOpacity} from "react-native";
 
 interface AppState {
 	serverInfo: any;
 	loading?: boolean,
-	provider: any;
+	provider: Provider;
+	buttonText?: any;
+	callback?: any;
 }
 
-export const AuthProvider: FunctionComponent<AppState> = ({serverInfo, provider}) => {
+export const AuthProvider: FunctionComponent<AppState> = ({serverInfo, provider, buttonText, callback}) => {
 
 	function getUrlToProvider(provider: string){
 		provider= provider.toLowerCase();
@@ -48,16 +52,30 @@ export const AuthProvider: FunctionComponent<AppState> = ({serverInfo, provider}
 	let url = getUrlToProvider(providerName);
 	let providerNameReadable = StringHelper.capitalizeFirstLetter(providerName);
 
+	let text = buttonText || "Log in with "+providerNameReadable;
+
+	let content = (
+		<Flex direction={"row"} _light={{backgroundColor: "rgb(240, 244, 249)"}} _dark={{backgroundColor: "darkgray"}} style={{borderRadius: 6, flex: 1, margin: 12}}>
+			<View style={{height: 60, width: 60, alignItems: "center", justifyContent: "center", backgroundColor: iconBackgroundColor, borderRadius: 6}}>
+				{renderIcon(icon, customVIconStyle.color)}
+			</View>
+			<View style={{justifyContent: "center", flex: 1, paddingLeft: 20}}>
+				<Text>{text}</Text>
+			</View>
+		</Flex>
+	);
+
+	if(!!callback){
+		return (
+			<TouchableOpacity onPress={() => {callback()}} >
+				{content}
+			</TouchableOpacity>
+		)
+	}
+
 	return (
 		<Link key={"Link"+providerName} href={url} >
-			<Flex direction={"row"} _light={{backgroundColor: "rgb(240, 244, 249)"}} _dark={{backgroundColor: "darkgray"}} style={{borderRadius: 6, flex: 1, margin: 12}}>
-				<View style={{height: 60, width: 60, alignItems: "center", justifyContent: "center", backgroundColor: iconBackgroundColor, borderRadius: 6}}>
-					{renderIcon(icon, customVIconStyle.color)}
-				</View>
-				<View style={{justifyContent: "center", flex: 1, paddingLeft: 20}}>
-					<Text>{"Log in with "+providerNameReadable}</Text>
-				</View>
-			</Flex>
+			{content}
 		</Link>
 	)
 }

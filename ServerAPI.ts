@@ -23,7 +23,6 @@ export default class ServerAPI{
 	static getPublicClient(){
 		let storage = new MemoryStorage();
 		return ServerAPI.getDirectus(storage);
-		//return ServerAPI.getClient(); //maybe we can fix the normal client so that bugs do not show up at logout
 	}
 
 	static getDirectus(storage, customErrorHandleCallback=null){
@@ -47,20 +46,24 @@ export default class ServerAPI{
 			let directus = ServerAPI.getDirectus(App.storage, ServerAPI.handleLogoutError);
 			let response = await directus.auth.logout();
 			await ServerAPI.handleLogoutError(); // we better make sure to reset variables in storage
-			NavigatorHelper.navigate(Login, null, true);
-			await App.setUser(null);
 		} catch (err){
+			console.log("Error at: handleLogout");
 			console.log(err);
-			NavigatorHelper.navigate(Login, null, true);
-			await App.setUser(null);
+			await ServerAPI.handleLogoutError(); // we better make sure to reset variables in storage
 		}
+		NavigatorHelper.navigate(Login, null, true);
+		await App.setUser(null);
 	}
 
 	static getClient(): Directus<any>{
 		if(ServerAPI.directus){
 			return ServerAPI.directus;
 		}
-		const directus = ServerAPI.getDirectus(App.storage);
+		let errorHandler = null; //use default error handler
+		if(App.storage.is_guest()){
+			errorHandler = () => {}; //as guest we ignore errors
+		}
+		const directus = ServerAPI.getDirectus(App.storage, errorHandler);
 		// api.interceptors.response.use(onResponse, onError);
 
 		ServerAPI.directus = directus;
@@ -86,6 +89,7 @@ export default class ServerAPI{
 		let access_token = data.access_token;
 		let refresh_token = data.refresh_token;
 		storage.set_refresh_token(refresh_token);
+		storage.set_access_token(access_token);
 		storage.set_access_token(access_token);
 		return ServerAPI.getClient();
 	}

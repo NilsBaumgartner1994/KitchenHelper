@@ -77,7 +77,7 @@ export const CustomDrawerContent: FunctionComponent = (props) => {
 
 	function renderUserRoleNameMenu(){
 		let role = App.getRole();
-		return renderMenuByName(role.name);
+		return renderMenuByName(role?.name);
 	}
 
 	function renderUserRoleIdMenu(user){

@@ -18,7 +18,6 @@ export const SignOutButton: FunctionComponent<AppState> = (props) => {
 		try{
 			await ServerAPI.handleLogout();
 		} catch (err){
-
 			console.log(err);
 		}
 	}
