@@ -12,7 +12,6 @@ export class DefaultStorage implements MyDirectusStorageInterface/** extends Sto
     }
 
     getStorageImplementation(): StorageImplementationInterface{
-        console.log("DefaultStorage.getStorageImplementation()")
         return null;
     }
 
@@ -33,8 +32,6 @@ export class DefaultStorage implements MyDirectusStorageInterface/** extends Sto
     }
 
     set_is_guest(isGuest){
-        console.log("set_is_guest: ");
-        console.log(isGuest);
         this.setValueOrDeleteIfNull(StorageKeys.KEY_COOKIE_IS_GUEST, isGuest)
     }
 
@@ -72,7 +69,6 @@ export class DefaultStorage implements MyDirectusStorageInterface/** extends Sto
     }
 
     getAuthAccessToken(){
-        console.log("DefaultStorage.getAuthAccessToken()");
         return this.getStorageImplementation().get(StorageKeys.KEY_AUTH_ACCESS_TOKEN);
     }
 

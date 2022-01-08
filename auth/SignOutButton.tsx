@@ -58,7 +58,7 @@ export const SignOutButton: FunctionComponent<AppState> = (props) => {
 
 	function renderOnlyIcon(){
 		return (
-			<Button style={{backgroundColor: "transparent"}} onPress={openConfirmBox} >
+			<Button key={"LogoutIcon"} style={{backgroundColor: "transparent"}} onPress={openConfirmBox} >
 				<Icon as={MaterialCommunityIcons} name={"logout"}/>
 			</Button>
 		)

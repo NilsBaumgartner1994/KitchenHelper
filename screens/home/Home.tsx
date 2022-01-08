@@ -17,9 +17,13 @@ export const Home = (props) => {
 		msCalculated = msCalculated.toFixed(0);
 		setMs(msCalculated);
 
-		let users = await directus.users.readMany();
-		setInfo(users);
-		//setTimeout(() => { downloadServerStatus(); }, 1000);
+		try{
+			let users = await directus.users.readMany();
+			setInfo(users);
+		} catch (err){
+			console.log(err);
+		}
+		setTimeout(() => { downloadServerStatus(); }, 1000);
 	}
 
 	// corresponding componentDidMount

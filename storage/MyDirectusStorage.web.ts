@@ -14,11 +14,8 @@ export class MyDirectusStorage  extends DefaultStorage/** extends Storage */{
     }
 
     getStorageImplementation(): StorageImplementationInterface{
-        console.log("MyDirectusStorage.getStorageImplementation()");
         let cookie_config = this.get_cookie_config();
         let necessaryAccepted = cookie_config?.necessary;
-        console.log("necessaryAccepted:")
-        console.log(necessaryAccepted)
         let selectedWebstorage = !!necessaryAccepted ? localStorage : sessionStorage;
         return new WebStorageWrapper(selectedWebstorage);
     }

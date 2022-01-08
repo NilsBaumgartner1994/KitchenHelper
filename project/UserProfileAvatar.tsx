@@ -47,7 +47,6 @@ export const UserProfileAvatar: FunctionComponent<AppState> = (props) => {
 		content = <DirectusImage showLoading={true} assetId={avatarAssetId} style={{height: "100%", width: "100%"}} />;
 	}
 
-
 	let dimension = props.heightAndWidth || titleBoxHeight;
 
 	if(!!props.onPress){
