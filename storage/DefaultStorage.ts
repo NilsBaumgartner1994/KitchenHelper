@@ -73,9 +73,7 @@ export class DefaultStorage implements MyDirectusStorageInterface/** extends Sto
 
     getAuthAccessToken(){
         console.log("DefaultStorage.getAuthAccessToken()");
-        let implementation = this.getStorageImplementation();
-        console.log(implementation);
-        return implementation.get(StorageKeys.KEY_AUTH_ACCESS_TOKEN);
+        return this.getStorageImplementation().get(StorageKeys.KEY_AUTH_ACCESS_TOKEN);
     }
 
     set auth_token(token) {
