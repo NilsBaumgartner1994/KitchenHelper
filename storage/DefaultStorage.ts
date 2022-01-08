@@ -1,5 +1,6 @@
 import {StorageKeys} from "./StorageKeys";
 import {MyDirectusStorageInterface} from "./MyDirectusStorageInterface";
+import {StorageImplementationInterface} from "./StorageImplementationInterface";
 
 export class DefaultStorage implements MyDirectusStorageInterface/** extends Storage */{
 
@@ -7,7 +8,11 @@ export class DefaultStorage implements MyDirectusStorageInterface/** extends Sto
 
     }
 
-    getStorageImplementation(){
+    constructor() {
+    }
+
+    getStorageImplementation(): StorageImplementationInterface{
+        console.log("DefaultStorage.getStorageImplementation()")
         return null;
     }
 
@@ -23,25 +28,36 @@ export class DefaultStorage implements MyDirectusStorageInterface/** extends Sto
 
     }
 
+    is_guest(){
+        return !!this.get(StorageKeys.KEY_COOKIE_IS_GUEST);
+    }
+
+    set_is_guest(isGuest){
+        console.log("set_is_guest: ");
+        console.log(isGuest);
+        this.setValueOrDeleteIfNull(StorageKeys.KEY_COOKIE_IS_GUEST, isGuest)
+    }
+
     set_refresh_token(token){
-        if(!token){
-            this.delete(StorageKeys.KEY_AUTH_REFRESH_TOKEN)
-        } else {
-            this.set(StorageKeys.KEY_AUTH_REFRESH_TOKEN, token);
-        }
+        this.setValueOrDeleteIfNull(StorageKeys.KEY_AUTH_REFRESH_TOKEN, token)
     }
 
     set_access_token(token){
-        if(!token){
-            this.delete(StorageKeys.KEY_AUTH_ACCESS_TOKEN)
+        this.setValueOrDeleteIfNull(StorageKeys.KEY_AUTH_ACCESS_TOKEN, token)
+    }
+
+    setValueOrDeleteIfNull(key, value){
+        if(!value){
+            this.delete(key)
         } else {
-            this.set(StorageKeys.KEY_AUTH_ACCESS_TOKEN, token);
+            this.set(key, value);
         }
     }
 
     clear_credentials(){
         this.set_refresh_token(null);
         this.set_access_token(null);
+        this.set_is_guest(false);
     }
 
     has_credentials_saved(){
@@ -56,6 +72,7 @@ export class DefaultStorage implements MyDirectusStorageInterface/** extends Sto
     }
 
     getAuthAccessToken(){
+        console.log("DefaultStorage.getAuthAccessToken()");
         return this.getStorageImplementation().get(StorageKeys.KEY_AUTH_ACCESS_TOKEN);
     }
 
@@ -90,6 +107,7 @@ export class DefaultStorage implements MyDirectusStorageInterface/** extends Sto
         this.getStorageImplementation().set(key, value);
         return value;
     }
+
     delete(key: string) {
         this.getStorageImplementation().remove(key);
         return null;

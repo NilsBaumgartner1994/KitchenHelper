@@ -15,6 +15,7 @@ import * as ExpoLinking from "expo-linking";
 import {URL_Helper} from "./helper/URL_Helper";
 import {NavigatorHelper} from "./navigation/NavigatorHelper";
 import LogIgnorer from "./helper/LogIgnorer";
+import UserHelper from "./utils/UserHelper";
 
 LogIgnorer.ignoreLogs();
 
@@ -41,6 +42,7 @@ export default class App extends React.Component{
 			NavigatorHelper.navigateToRouteName(route, params);
 		})
 		this.state = {
+			user: undefined,
 			loadedUser: false,
 		 	reloadNumber: 0,
 			hideDrawer: false,
@@ -89,7 +91,15 @@ export default class App extends React.Component{
 	}
 
 	static async setUser(user){
+		if(!!user){
+			user.isGuest = UserHelper.isGuest(user);
+		}
 		App.instance.setUser(user);
+	}
+
+	static async setUserAsGuest(){
+		App.storage.set_is_guest(true);
+		await App.setUser(UserHelper.getGuestUser());
 	}
 
 	async setUser(user, callback=() => {}){
@@ -114,12 +124,14 @@ export default class App extends React.Component{
 		return this.state.user;
 	}
 
-	async loadUser(){
+	static async loadUser(){
 		try{
 			if(ServerAPI.areCredentialsSaved()){
 				let directus = ServerAPI.getClient();
 				let me = await ServerAPI.getMe(directus);
 				return me;
+			} else if(App.storage.is_guest()){
+				return UserHelper.getGuestUser();
 			}
 		} catch (err){
 			console.log("Error at load User");
@@ -134,7 +146,7 @@ export default class App extends React.Component{
 			App.plugin.initApp();
 		}
 		await this.loadServerInfo();
-		let user = await this.loadUser();
+		let user = await App.loadUser()
 		await this.setUser(user);
 	}
 

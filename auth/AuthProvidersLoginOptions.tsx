@@ -2,10 +2,12 @@ import React, {FunctionComponent, useEffect, useState} from 'react';
 import ServerAPI from "../ServerAPI";
 import {AuthProvider} from "./AuthProvider";
 import {View} from "native-base";
+import {AuthProviderGuest} from "./AuthProviderGuest";
 
 export const AuthProvidersLoginOptions: FunctionComponent = (props) => {
 
 	const showExternalLogins = true;
+	const showGuestLogin = false;
 
 	const [firstFetch, setfirstFetch] = useState(true)
 	const [authProviders, setAuthProviders] = useState(undefined)
@@ -34,24 +36,31 @@ export const AuthProvidersLoginOptions: FunctionComponent = (props) => {
 	}
 
 	function renderAuthProvider(provider: any){
-		return <AuthProvider key={provider?.name} provider={provider} serverInfo={serverInfo} />;
+		return <AuthProvider key={"externalProvider"+provider?.name} provider={provider} serverInfo={serverInfo} />;
+	}
+
+	function renderAuthProviderGuest(){
+		return <AuthProviderGuest serverInfo={serverInfo} key={"guest"} />
 	}
 
 	function renderAuthProviders(){
+		let output = [];
+		if(showGuestLogin){
+			output.push(renderAuthProviderGuest());
+		}
+
 		if(showExternalLogins){
-			let output = [];
 			if(!!authProviders){
 				for(let provider of authProviders){
 					output.push(renderAuthProvider(provider))
 				}
 			}
-			return (
-				<View style={{flex: 1}}>
-					{output}
-				</View>
-			);
 		}
-		return null;
+		return (
+			<View style={{flex: 1}}>
+				{output}
+			</View>
+		);
 	}
 
 	// corresponding componentDidMount

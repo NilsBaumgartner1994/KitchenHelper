@@ -1,5 +1,7 @@
 import {StorageKeys} from "./StorageKeys";
 import {DefaultStorage} from "./DefaultStorage";
+import {StorageImplementationInterface} from "./StorageImplementationInterface";
+import {WebStorageWrapper} from "./WebStorageWrapper";
 
 export class MyDirectusStorage  extends DefaultStorage/** extends Storage */{
 
@@ -7,13 +9,18 @@ export class MyDirectusStorage  extends DefaultStorage/** extends Storage */{
 
     }
 
-    getStorageImplementation(){
-        //console.log("getStorageImplementation");
+    constructor() {
+        super();
+    }
+
+    getStorageImplementation(): StorageImplementationInterface{
+        console.log("MyDirectusStorage.getStorageImplementation()");
         let cookie_config = this.get_cookie_config();
-        //console.log("cookie_config: ",cookie_config)
-        let necessaryAccepted = this.get_cookie_config()?.necessary;
-        //console.log("getStorageImplementation: necessaryAccepted: ",necessaryAccepted);
-        return necessaryAccepted ? localStorage : sessionStorage;
+        let necessaryAccepted = cookie_config?.necessary;
+        console.log("necessaryAccepted:")
+        console.log(necessaryAccepted)
+        let selectedWebstorage = !!necessaryAccepted ? localStorage : sessionStorage;
+        return new WebStorageWrapper(selectedWebstorage);
     }
 
     get_cookie_config(){

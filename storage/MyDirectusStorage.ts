@@ -4,6 +4,10 @@ import {DefaultStorage} from "./DefaultStorage";
 
 export class MyDirectusStorage extends DefaultStorage/** extends Storage */{
 
+    constructor() {
+        super();
+    }
+
     static async init(){
         const data = await SyncStorage.init();
     }
