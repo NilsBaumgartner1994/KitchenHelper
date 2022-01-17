@@ -30,9 +30,9 @@ export const CustomDrawerContent: FunctionComponent = (props) => {
 
 
 		if(!!user){
-			output.push(renderUserRoleIdMenu(user));
-			output.push(renderUserRoleNameMenu());	
 			output.push(renderAuthenticatedMenu())
+			output.push(renderUserRoleIdMenu(user));
+			output.push(renderUserRoleNameMenu());
 		} else {
 			output.push(renderUnauthenticatedMenu())
 		}
