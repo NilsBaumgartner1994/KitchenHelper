@@ -25,7 +25,8 @@ export const FormButton: FunctionComponent<AppState & IButtonProps & IBoxProps> 
 	}
 
 	return (
-		<Button style={{minWidth: 154}} {...props}>
+		//use inline style for backgroundColor ! Weird bug if pressing a button otherwise
+		<Button borderColor={"#00000000"} minWidth={154} {...props}>
 			{content}
 		</Button>
 	)

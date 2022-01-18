@@ -31,6 +31,10 @@ export class MyDirectusStorage extends DefaultStorage/** extends Storage */{
         return null;
     }
 
+    getAllKeys(){
+        return SyncStorage.getAllKeys()
+    }
+
     has_cookie_config(): boolean{
        return !!this.get_cookie_config();
     }

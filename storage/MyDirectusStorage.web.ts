@@ -39,6 +39,11 @@ export class MyDirectusStorage  extends DefaultStorage/** extends Storage */{
        return !!this.get_cookie_config();
     }
 
+    getAllKeys(){
+        let storage = this.getStorageImplementation();
+        return Object.keys(storage.webstorage);
+    }
+
     set_cookie_config(config){
         if(config.necessary){
             localStorage.setItem(StorageKeys.KEY_COOKIE_CONFIG, JSON.stringify(config))

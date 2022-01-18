@@ -13,6 +13,7 @@ import ServerAPI from "../ServerAPI";
 import {SignOutButton} from "../auth/SignOutButton";
 import {Users} from "../screens/user/Users";
 import {SafeAreaView} from "react-native";
+import {SettingsButton} from "../screens/settings/SettingsButton";
 
 export const CustomDrawerContent: FunctionComponent = (props) => {
 
@@ -122,12 +123,15 @@ export const CustomDrawerContent: FunctionComponent = (props) => {
 		NavigatorHelper.navigate(Users, {id: user.id});
 	}
 
-	function renderProfileAndLogoutPanel(){
+	function renderBottomPanel(){
 		if(!!user){
 			return (
 				<MyThemedBox style={{flexDirection: "row", alignItems: "center"}}>
 					<UserProfileAvatar user={user} onPress={handleAvatarPress} />
-					<SignOutButton onlyIcon={true} />
+					<SettingsButton onlyIcon={true} />
+					<View style={{flex: 1, flexDirection: "row-reverse"}}>
+						<SignOutButton onlyIcon={true} />
+					</View>
 				</MyThemedBox>
 			)
 		}
@@ -151,7 +155,7 @@ export const CustomDrawerContent: FunctionComponent = (props) => {
 				/>
 				{renderDrawerItems()}
 			</DrawerContentScrollView>
-			{renderProfileAndLogoutPanel()}
+			{renderBottomPanel()}
 			</SafeAreaView>
 		</MyThemedBox>
 	);

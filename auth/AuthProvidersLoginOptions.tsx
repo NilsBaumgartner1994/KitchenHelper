@@ -7,7 +7,7 @@ import {AuthProviderGuest} from "./AuthProviderGuest";
 export const AuthProvidersLoginOptions: FunctionComponent = (props) => {
 
 	const showExternalLogins = true;
-	const showGuestLogin = false;
+	const showGuestLogin = true;
 
 	const [firstFetch, setfirstFetch] = useState(true)
 	const [authProviders, setAuthProviders] = useState(undefined)

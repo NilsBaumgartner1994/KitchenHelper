@@ -1,6 +1,10 @@
 import {StorageKeys} from "./StorageKeys";
 import {MyDirectusStorageInterface} from "./MyDirectusStorageInterface";
 import {StorageImplementationInterface} from "./StorageImplementationInterface";
+import SynchedState from "../synchedstate/SynchedState";
+import ColorCodeHelper from "../theme/ColorCodeHelper";
+
+SynchedState.registerSynchedStates(StorageKeys.THEME, ColorCodeHelper.VALUE_THEME_DEFAULT, null, null, false);
 
 export class DefaultStorage implements MyDirectusStorageInterface/** extends Storage */{
 
@@ -9,6 +13,30 @@ export class DefaultStorage implements MyDirectusStorageInterface/** extends Sto
     }
 
     constructor() {
+
+    }
+
+    defaultSaveStorageContext(storageKey, state, payload){
+        try{
+            this.set(storageKey, payload);
+        } catch (err){
+            console.log(err);
+            return false;
+        }
+        return true;
+    }
+
+    initContextStores(){
+        let keys = this.getAllKeys();
+        for(let i=0; i<keys.length; i++){
+            let storageKey = keys[i];
+            let value = this.get(storageKey);
+            SynchedState.registerSynchedStates(storageKey, value, this.defaultSaveStorageContext.bind(this), null, true);
+        }
+    }
+
+    getAllKeys(): string[] {
+        throw new Error("Method not implemented.");
     }
 
     getStorageImplementation(): StorageImplementationInterface{
@@ -107,5 +135,12 @@ export class DefaultStorage implements MyDirectusStorageInterface/** extends Sto
     delete(key: string) {
         this.getStorageImplementation().remove(key);
         return null;
+    }
+
+    deleteAll(){
+        let allKeys = this.getAllKeys();
+        for(let i=0; i<allKeys.length; i++){
+            this.delete(allKeys[i]);
+        }
     }
 }

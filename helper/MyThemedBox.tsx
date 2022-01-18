@@ -26,6 +26,7 @@ export const MyThemedBox: FunctionComponent<AppState & IBoxProps> = (props) => {
 		// Checking isValidElement is the safe way and avoids a typescript
 		// error too.
 		if (React.isValidElement(child)) {
+			// @ts-ignore
 			return React.cloneElement(child, { _shadeLevel: level+1 });
 		}
 		return child;

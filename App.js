@@ -2,7 +2,7 @@ import React from 'react';
 import {NativeBaseProvider} from 'native-base';
 import nativebaseConfig from '../../nativebase.config';
 import {Root} from './navigation/RootComponent';
-import ColorCodeManager from "./theme/ColorCodeManager";
+import ColorCodeHelper from "./theme/ColorCodeHelper";
 import BaseThemeGenerator from "./theme";
 import {RootStack} from "./navigation/rootNavigator";
 import {ColorStatusBar} from "./ColorStatusBar";
@@ -10,12 +10,14 @@ import {MyDirectusStorage} from "./storage/MyDirectusStorage";
 import ServerAPI from "./ServerAPI";
 import {RouteRegisterer} from "./navigation/RouteRegisterer";
 import Project from "../project/Project";
-import {Linking, LogBox} from "react-native";
+import {Linking} from "react-native";
 import * as ExpoLinking from "expo-linking";
 import {URL_Helper} from "./helper/URL_Helper";
 import {NavigatorHelper} from "./navigation/NavigatorHelper";
 import LogIgnorer from "./helper/LogIgnorer";
 import UserHelper from "./utils/UserHelper";
+import {StoreProvider} from "easy-peasy";
+import SynchedState from "./synchedstate/SynchedState";
 
 LogIgnorer.ignoreLogs();
 
@@ -53,7 +55,7 @@ export default class App extends React.Component{
 // Custom function to subscribe to incoming links
 	subscribe(listener) {
 		// First, you may want to do the default deep link handling
-		const onReceiveURL = ({url}: { url: string }) => {
+		const onReceiveURL = ({url}) => {
 			listener(url);
 		};
 
@@ -140,8 +142,17 @@ export default class App extends React.Component{
 		return null;
 	}
 
-	async componentDidMount() {
+	async loadSynchedVariables(){
 		await MyDirectusStorage.init();
+		await App.storage.initContextStores(); //before SynchedState.initContextStores() and after MyDirectusStorage.init();
+		if(!!await App.plugin.initContextStores){
+			await App.plugin.initContextStores();
+		}
+		await SynchedState.initContextStores(); //after App.storage.initContextStores()
+	}
+
+	async componentDidMount() {
+		await this.loadSynchedVariables();
 		if(!!App.plugin && !!App.plugin.initApp){
 			App.plugin.initApp();
 		}
@@ -151,7 +162,7 @@ export default class App extends React.Component{
 	}
 
 	getBaseTheme(){
-		let initialColorMode = this.props.initialColorMode || ColorCodeManager.VALUE_THEME_LIGHT;
+		let initialColorMode = this.props.initialColorMode || ColorCodeHelper.VALUE_THEME_LIGHT;
 		return BaseThemeGenerator.getBaseTheme(initialColorMode);
 	}
 
@@ -167,12 +178,13 @@ export default class App extends React.Component{
 			return null;
 		}
 
-
 		return (
-			<NativeBaseProvider reloadNumber={this.state.reloadNumber+""+this.state.hideDrawer} theme={theme} colorModeManager={ColorCodeManager.getManager()} config={nativebaseConfig}>
+			<StoreProvider store={SynchedState.getContextStore()}>
+				<NativeBaseProvider reloadNumber={this.state.reloadNumber+""+this.state.hideDrawer} theme={theme} colorModeManager={ColorCodeHelper.getManager()} config={nativebaseConfig}>
 					<Root key={this.state.reloadNumber+""+this.state.hideDrawer}>{content}</Root>
 					<ColorStatusBar />
-			</NativeBaseProvider>
+				</NativeBaseProvider>
+			</StoreProvider>
 		);
 	}
 }

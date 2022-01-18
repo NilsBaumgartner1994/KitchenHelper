@@ -1,12 +1,6 @@
 import React, {FunctionComponent, useContext} from 'react';
 import {Text, Box, Button, Heading, HStack, Icon, useBreakpointValue, useColorMode, View,} from 'native-base';
-import {Floaters} from './Floaters';
-import config from "../../../config.json";
-import {SafeAreaTop} from "./SafeAreaTop";
-import {MaterialCommunityIcons} from "@expo/vector-icons";
-import {NavigatorHelper} from "../navigation/NavigatorHelper";
-
-const padding = 16;
+import BreakPointValues from "./BreakPointValues";
 
 interface AppState {
 
@@ -23,16 +17,11 @@ export const BreakPointLayout = ({
 	...props
 }: any) => {
 
-	const boxWidth = useBreakpointValue({
-		"base": '100%',
-		"md": 768-padding+'px',
-		"lg": 992-padding+'px',
-		"xl": 1536-padding+'px',
-	})
+	const boxWidth = useBreakpointValue(BreakPointValues.getWidthValues())
 
 	return (
 			<Box
-				style={{padding: padding, flex: 1, margin: 0 ,alignItems: "flex-start"}}
+				style={{padding: BreakPointValues.padding, flex: 1, margin: 0 ,alignItems: "flex-start"}}
 				{...props}
 				flex={1}
 				px={4}

@@ -8,7 +8,7 @@ export interface AppState {
 	onlyIcon?: boolean;
 	transparent?: boolean;
 }
-export const SignOutButton: FunctionComponent<AppState> = (props) => {
+export const SignOutButton: (props) => JSX.Element[] = (props) => {
 
 	const cancelRef = React.useRef(null)
 	const [isOpen, setIsOpen] = useState(false)

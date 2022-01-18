@@ -3,7 +3,7 @@ import ServerAPI from "../ServerAPI";
 import {NavigatorHelper} from "../navigation/NavigatorHelper";
 import {Login} from "./Login";
 import EnviromentHelper from "../EnviromentHelper";
-import {Flex, FormControl, Input, View} from "native-base";
+import {Button, Flex, FormControl, Input, View} from "native-base";
 import {InternalLink} from "../navigation/InternalLink";
 import {ResetPassword} from "./ResetPassword";
 import {FormButton} from "../buttons/FormButton";
@@ -40,8 +40,8 @@ export const EmailLogin: FunctionComponent<WebViewLoginFormState> = (props) => {
 			NavigatorHelper.navigate(Login, {[EnviromentHelper.getDirectusAccessTokenName()]: token} )
 		} catch (err){
 			console.log(err);
+			setLoginInitiated(false);
 		} finally {
-			//setLoginInitiated(false);
 		}
 	}
 

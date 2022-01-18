@@ -1,12 +1,5 @@
 import {FunctionComponent} from "react";
 import {StringHelper} from "../helper/StringHelper";
-import {Login} from "../auth/Login";
-import {AboutUs} from "../screens/legalRequirements/AboutUs";
-import {License} from "../screens/legalRequirements/License";
-import {Linking} from "react-native";
-import * as ExpoLinking from 'expo-linking';
-import {NavigatorHelper} from "./NavigatorHelper";
-import {URL_Helper} from "../helper/URL_Helper";
 
 export class RegisteredRoutesMap {
 

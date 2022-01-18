@@ -3,7 +3,7 @@ import {Text, TouchableOpacity, View} from 'react-native'
 
 import codePush from 'react-native-code-push'
 import App from '../App'
-import ColorCodeManager from "../theme/ColorCodeManager";
+import ColorCodeHelper from "../theme/ColorCodeHelper";
 import * as SplashScreen from 'expo-splash-screen';
 
 export class CodePushWrapper extends React.Component {
@@ -43,7 +43,7 @@ export class CodePushWrapper extends React.Component {
     }
 
     async componentDidMount() {
-        let initialColorMode = await ColorCodeManager.getColorModeFromStorage();
+        let initialColorMode = await ColorCodeHelper.getColorModeFromStorage();
         await this.setState({
             initialColorMode: initialColorMode
         });

@@ -14,6 +14,8 @@ import {MenuItem} from "./MenuItem";
 import {Users} from "../screens/user/Users";
 import App from "../App";
 import {createDrawerNavigator} from "@react-navigation/drawer";
+import {Settings} from "../screens/settings/Settings";
+import {DeveloperSettings} from "../screens/settings/DeveloperSettings";
 
 const Drawer = createDrawerNavigator();
 
@@ -49,6 +51,8 @@ export class RouteRegisterer {
         RegisteredRoutesMap.registerRoute(Home, BaseTemplate, "Home", "home");
 
         RegisteredRoutesMap.registerRoute(Users, BaseTemplate, "Users", "users", "/:id?");
+        RegisteredRoutesMap.registerRoute(Settings, BaseTemplate, "Settings", "settings", "/:id?");
+        RegisteredRoutesMap.registerRoute(DeveloperSettings, BaseTemplate, "Developer Settings", "settings/developer", "/:id?");
 
         if(!!App.plugin && App.plugin.registerRoutes()){
             App.plugin.registerRoutes();

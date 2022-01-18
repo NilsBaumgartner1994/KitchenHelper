@@ -1,7 +1,6 @@
 import React, {FunctionComponent, useEffect, useState} from 'react';
-import {Icon, Image, View} from "native-base";
-import {ServerInfoHelper} from "../helper/ServerInfoHelper";
-import {ServerInfo, UserItem} from "@directus/sdk";
+import {Icon, View} from "native-base";
+import {UserItem} from "@directus/sdk";
 import ServerAPI from "../ServerAPI";
 import {DirectusImage} from "./DirectusImage";
 import {TouchableOpacity} from "react-native";
@@ -11,7 +10,7 @@ const titleBoxHeight = 64;
 
 interface AppState {
 	user?: UserItem;
-	onPress?: () => {}
+	onPress?: () => void
 	heightAndWidth?: string
 }
 export const UserProfileAvatar: FunctionComponent<AppState> = (props) => {

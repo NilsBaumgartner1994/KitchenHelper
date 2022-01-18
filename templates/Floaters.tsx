@@ -1,44 +1,41 @@
 import React from 'react';
-import {Box, Fab, Icon, useColorMode} from 'native-base';
+import {Box, Fab, Icon, useColorMode, View} from 'native-base';
 import {Ionicons} from '@expo/vector-icons';
+import {ThemeChanger} from "../theme/ThemeChanger";
 
 //TODO: https://docs.nativebase.io/stagger
 export const Floaters = () => {
 	const { colorMode, toggleColorMode } = useColorMode();
 
-	const renderedFab = <Fab
-		key={"FabKey"}
-		shadow={7}
-		variant="unstyled"
-		_dark={{
-			bg: 'orange.50',
-			_hover: {
-				bg: 'orange.100',
-			},
-			_pressed: {
-				bg: 'orange.100',
-			},
-		}}
-		_light={{
-			bg: 'blueGray.900',
-			_hover: {
-				bg: 'blueGray.800',
-			},
-			_pressed: {
-				bg: 'blueGray.800',
-			},
-		}}
-		p={3}
-		icon={
-			<Icon
-				as={Ionicons}
-				_dark={{ name: 'sunny', color: 'orange.400' }}
-				_light={{ name: 'moon', color: 'blueGray.100' }}
-				size="md"
-			/>
-		}
-		onPress={toggleColorMode}
-	/>;
+	const renderedFab =
+		<View style={{
+			position: "absolute",
+			bottom: 16,
+			right: 16
+		}}>
+		<ThemeChanger key={"FabKey"}>
+			<View
+				style={{
+					padding: 16,
+					borderRadius: 32
+				}}
+				_dark={{
+					bg: 'orange.50',
+				}}
+				_light={{
+					bg: 'blueGray.900',
+				}}
+				shadow={7}
+			>
+				<Icon
+					as={Ionicons}
+					_dark={{ name: 'sunny', color: 'orange.400' }}
+					_light={{ name: 'moon', color: 'blueGray.100' }}
+					size="md"
+				/>
+			</View>
+		</ThemeChanger>
+		</View>;
 
 
 	const renderedLogo = <Box

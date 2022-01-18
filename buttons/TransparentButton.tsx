@@ -8,7 +8,7 @@ export const TransparentButton: FunctionComponent<IButtonProps & IBoxProps> = (p
 	let content = props.children;
 
 	return (
-		<Button style={{minWidth: 154, backgroundColor: "transparent"}} {...props}>
+		<Button minWidth={154} bgColor={"#00000000"} {...props}>
 			{content}
 		</Button>
 	)
