@@ -2,6 +2,7 @@ import React from 'react';
 import {Box, Fab, Icon, useColorMode, View} from 'native-base';
 import {Ionicons} from '@expo/vector-icons';
 import {ThemeChanger} from "../theme/ThemeChanger";
+import CustomFloaters from "./CustomFloaters";
 
 //TODO: https://docs.nativebase.io/stagger
 export const Floaters = () => {
@@ -55,7 +56,8 @@ export const Floaters = () => {
 
 	const renderedContent = [
 		//renderedLogo,
-		renderedFab
+		renderedFab,
+		...CustomFloaters.getFloaters()
 	];
 
 	return (
