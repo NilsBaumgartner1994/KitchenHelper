@@ -8,6 +8,7 @@ import {SignOutButton} from "./SignOutButton";
 import App from "../App";
 import {EmailLogin} from "./EmailLogin";
 import {AuthProvidersLoginOptions} from "./AuthProvidersLoginOptions";
+import {RegisteredRoutesMap} from "../navigation/RegisteredRoutesMap";
 
 export interface WebViewLoginFormState {
 	user?: UserItem;
@@ -52,7 +53,7 @@ export const WebViewLogin: FunctionComponent<WebViewLoginFormState> = (props) =>
 					<Flex direction={"row"} justify={"space-between"}>
 						<SignOutButton />
 						<FormButton onPress={async () => {
-							await NavigatorHelper.navigate(Home)
+							await NavigatorHelper.navigate(RegisteredRoutesMap.getHome())
 							await App.setHideDrawer(false);
 							//
 						}}>

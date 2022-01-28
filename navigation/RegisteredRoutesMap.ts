@@ -1,5 +1,6 @@
 import {FunctionComponent} from "react";
 import {StringHelper} from "../helper/StringHelper";
+import {Home} from "../screens/home/Home";
 
 export class RegisteredRoutesMap {
 
@@ -7,6 +8,8 @@ export class RegisteredRoutesMap {
     private static mapFunctionComponentToRoute: {} = {}
 
     private static initialRoutename = "";
+
+    private static homeComponent: FunctionComponent = Home;
 
     static reset(){
         RegisteredRoutesMap.mapRouteToScreenItem = {};
@@ -18,6 +21,14 @@ export class RegisteredRoutesMap {
 
     static getInitialRouteName() {
         return RegisteredRoutesMap.initialRoutename;
+    }
+
+    static setHome(component: FunctionComponent) {
+        RegisteredRoutesMap.homeComponent = component;
+    }
+
+    static getHome(): FunctionComponent {
+        return RegisteredRoutesMap.homeComponent;
     }
 
     static registerRoute(component: FunctionComponent, template: FunctionComponent = null,title: string, route: string, params: any=null){
