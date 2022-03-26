@@ -17,7 +17,8 @@ export const BreakPointLayout = ({
 	...props
 }: any) => {
 
-	const boxWidth = useBreakpointValue(BreakPointValues.getWidthValues())
+	let widthValues = !!props.breakPointWidthValues ? props.breakPointWidthValues : BreakPointValues.getWidthValues();
+	const boxWidth = useBreakpointValue(widthValues);
 
 	return (
 			<Box
