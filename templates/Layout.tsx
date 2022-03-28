@@ -1,5 +1,5 @@
-import React, {FunctionComponent, useContext} from 'react';
-import {Text, Box, Button, Heading, HStack, Icon, useBreakpointValue, useColorMode, View,} from 'native-base';
+import React from 'react';
+import {Box, Button, Heading, HStack, Icon, useBreakpointValue, useColorMode, View,} from 'native-base';
 import {Floaters} from './Floaters';
 import config from "../../../config.json";
 import {SafeAreaTop} from "./SafeAreaTop";
@@ -45,10 +45,11 @@ export const Layout = ({
 	const { colorMode, toggleColorMode } = useColorMode();
 
 	function renderHeading(){
+		let color = !!props.headingTextColor ? props.headingTextColor : (colorMode == 'dark' ? 'white' : 'gray.800');
 		let burgerButton = 	(
-			<Button style={{backgroundColor: "transparent"}} onPress={NavigatorHelper.toggleDrawer} >
-				<Icon as={MaterialCommunityIcons} name={"menu"}/>
-			</Button>
+		<Button style={{backgroundColor: "transparent"}} onPress={NavigatorHelper.toggleDrawer} >
+			<Icon as={MaterialCommunityIcons} name={"menu"} color={color}/>
+		</Button>
 		)
 
 		if(!isSmallDevice){
@@ -57,7 +58,7 @@ export const Layout = ({
 
 		return (
 			<Heading
-			color={colorMode == 'dark' ? 'white' : 'gray.800'}
+			color={color}
 			// fontSize={{
 			// 	lg: '3xl',
 			// }}
@@ -69,7 +70,7 @@ export const Layout = ({
 			</Heading>
 		)
 	}
-
+	let backgroundStyle = !!props.headingBackgroundColor ? {backgroundColor: props.headingBackgroundColor} : undefined;
 	return (
 		<>
 			<SafeAreaTop
@@ -94,6 +95,7 @@ export const Layout = ({
 					px={4}
 					zIndex={-1}
 					{..._hStack}
+					style={backgroundStyle}
 				>
 					<HStack py={2}
 					// alignItems="flex-end"

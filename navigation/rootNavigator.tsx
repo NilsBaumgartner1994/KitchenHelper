@@ -29,12 +29,15 @@ export const RootStack = (props) => {
 	console.log("Render RootNavigator");
 
 	let Drawer = RouteRegisterer.getDrawer();
+	let drawerBorderColor = RouteRegisterer.getDrawerBorderColor();
+	let drawerStyle = !!drawerBorderColor ? {borderColor: drawerBorderColor} : undefined;
 
 	//TODO maybe add Drawer instead of custom implementation: https://reactnavigation.org/docs/5.x/drawer-navigator
 	return(
 		<View flex={1} flexDirection={"row"}>
 			<View flex={1}>
 					<Drawer.Navigator
+						drawerStyle={drawerStyle}
 						drawerType={drawerType}
 						swipeEnabled={false}
 						drawerPosition={'left' /** | 'right' */}

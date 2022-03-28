@@ -26,6 +26,10 @@ export class RouteRegisterer {
     static HOME_AUTHENTICATED = Home;
     static HOME_UNAUTHENTICATED = Login;
 
+    // this is here since we also get the drawer from here, if you have a better place for this feel free to move it
+    private static drawerBorderColor: string | null = null;
+    private static drawerBackgroundColor: string | null = null;
+
     static registerLegalRequirements(){
         // Legal Requirements
         RegisteredRoutesMap.registerRoute(AboutUs, BaseTemplate, "About us", "about-us");
@@ -61,6 +65,22 @@ export class RouteRegisterer {
 
     static getDrawer(){
         return Drawer;
+    }
+
+    static setDrawerBorderColor(color: string) {
+        RouteRegisterer.drawerBorderColor = color;
+    }
+
+    static getDrawerBorderColor(): string {
+        return RouteRegisterer.drawerBorderColor;
+    }
+
+    static setDrawerBackgroundColor(color: string) {
+        RouteRegisterer.drawerBackgroundColor = color;
+    }
+
+    static getDrawerBackgroundColor(): string {
+        return RouteRegisterer.drawerBackgroundColor;
     }
 
     static loadDrawerScreens(){

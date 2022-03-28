@@ -1,6 +1,6 @@
 import React, {FunctionComponent} from 'react';
 import {DrawerContentScrollView, DrawerItem} from '@react-navigation/drawer';
-import {Button, Text, View} from "native-base";
+import {Text, View} from "native-base";
 import {ProjectLogo} from "../project/ProjectLogo";
 import {NavigatorHelper} from "./NavigatorHelper";
 import {ProjectName} from "../project/ProjectName";
@@ -9,11 +9,11 @@ import {MyThemedBox} from "../helper/MyThemedBox";
 import {ExpandableDrawerItem} from "./ExpandableDrawerItem";
 import App from "../App";
 import {UserProfileAvatar} from "../project/UserProfileAvatar";
-import ServerAPI from "../ServerAPI";
 import {SignOutButton} from "../auth/SignOutButton";
 import {Users} from "../screens/user/Users";
 import {SafeAreaView} from "react-native";
 import {SettingsButton} from "../screens/settings/SettingsButton";
+import {RouteRegisterer} from "./RouteRegisterer";
 
 export const CustomDrawerContent: FunctionComponent = (props) => {
 
@@ -137,8 +137,9 @@ export const CustomDrawerContent: FunctionComponent = (props) => {
 		}
 	}
 
+	let bgColor = RouteRegisterer.getDrawerBackgroundColor();
 	return (
-		<MyThemedBox style={{height: "100%"}}>
+		<MyThemedBox style={{height: "100%", backgroundColor: !!bgColor ? bgColor : undefined}}>
 			<SafeAreaView style={{height: "100%", width: "100%"}}>
 			<DrawerContentScrollView {...props}>
 				<DrawerItem
