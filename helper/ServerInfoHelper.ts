@@ -26,4 +26,8 @@ export class ServerInfoHelper {
         return ServerAPI.getAssetImageURL(ServerInfoHelper.getProjectBackgroundAssetId(serverInfo));
     }
 
+    static getProjectVersion(): string {
+        let manifest = EnviromentHelper.getAppManifest();
+        return !!manifest?.version ? manifest.version : "";
+    }
 }
